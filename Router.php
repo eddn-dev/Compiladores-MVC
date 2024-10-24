@@ -1,7 +1,7 @@
 <?php
 
 namespace MVC;
-
+//comentario de hat para ver si jala
 class Router
 {
     public array $getRoutes = [];
