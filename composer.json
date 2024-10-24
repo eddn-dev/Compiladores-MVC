@@ -1,0 +1,22 @@
+{
+    "name": "eduardo/appsalon",
+    "description": "Proyecto PHP8 Model View Controller, SQL, SASS, Gulp, Tensor",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "MVC\\": "./",
+            "Controllers\\": "./controllers",
+            "Model\\": "./models",
+            "Classes\\": "./classes"
+        }
+    },
+    "authors": [
+        {
+            "name": "Edd n dev",
+            "email": "contacto@edndev.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    }
+}

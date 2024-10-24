@@ -1,0 +1,280 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.modal { 
+  position: relative;
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 800px;
+  width: 90%;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+  @include m.responsive('tablet') {
+    max-width: 600px;
+  }
+
+  @include m.responsive('desktop') {
+    max-width: 800px;
+  }
+
+  &.bg30{
+    background: transparentize(v.$color-white, 0.7);
+  }
+
+  &.bg85{
+    background: transparentize(v.$color-white, 0.15);
+  }
+
+  &.m1000{
+    max-width: 100rem;
+  }
+
+  .modal_close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    font-size: 2.5rem;
+    line-height: 1;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #000;
+    }
+  }
+
+  .modal_title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .modal_canvas_container {
+    width: 250px;
+    height: 250px;
+    margin: 0 auto 1.5rem;
+    position: relative;
+    overflow: hidden;
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  }
+
+  .modal_content {
+    padding: 1rem;
+    text-align: left;
+
+    h2 {
+      font-size: 2.4rem;
+      margin-bottom: 1rem;
+      font-family: v.$font-secondary;
+    }
+
+    p {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+      line-height: v.$line-height-md;
+    }
+
+    /* Estilos para formularios */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      height: 100%;
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1rem;
+
+        label {
+          font-size: 1.6rem;
+          margin-bottom: 0.5rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        textarea {
+          width: 100%;
+          padding: 0.8rem;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          font-size: 1.6rem;
+        }
+
+        select {
+          width: 100%;
+          padding: 0.8rem;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          font-size: 1.6rem;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+          margin-right: 0.5rem;
+        }
+      }
+
+      .alert-message {
+          background-color: v.$color-green;
+          color: v.$color-white;
+          padding: 0.5rem 1rem;
+          border-radius: 5px;
+          font-size: 1.5rem;
+          margin-top: 5px;
+          transition: all 0.5s ease;
+
+          &.error{
+            background-color: v.$color-red;
+          }
+      }    
+    }
+
+    /* Estilos para botones dentro del formulario */
+    .modal_buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 2rem;
+
+      .modal_button {
+        padding: 0.8rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.6rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-family: v.$font-secondary;
+
+        &.accept {
+          background-color: #4caf50; // Verde
+          color: white;
+
+          &:hover {
+            background-color: darken(#4caf50, 10%);
+          }
+        }
+
+        &.cancel {
+          background-color: #f44336; // Rojo
+          color: white;
+
+          &:hover {
+            background-color: darken(#f44336, 10%);
+          }
+        }
+      }
+    }
+
+    /* Estilos para la grilla de opciones */
+    .modal_grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1.5rem;
+
+      @include m.responsive('tablet') {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .button_option {
+        padding: 1rem;
+        background-color: #2196f3; // Azul
+        color: white;
+        text-align: center;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1.6rem;
+        transition: background-color 0.3s ease;
+        font-family: v.$font-secondary;
+
+        &:hover {
+          background-color: darken(#2196f3, 10%);
+        }
+      }
+    }
+
+    /* Estilos para subtítulos y texto */
+    .subtitle {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      font-family: v.$font-secondary;
+    }
+
+    .text {
+      font-size: 1.6rem;
+      line-height: v.$line-height-md;
+      margin-bottom: 1rem;
+    }
+
+    .modal_create_layout{
+      width: 100%;
+      height: auto;
+      display: flex;
+      gap: 2rem;
+      flex-direction: column-reverse;
+
+      @include m.responsive('tablet'){
+        flex-direction: row;
+      }
+
+      .modal_automaton_form{
+        flex: 1 1;
+      }
+
+      .modal_automaton_previews{
+        flex: 1 1;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+
+        .automaton_preview{
+          min-height: 20rem;
+          background-color: rgb(255, 241, 223);
+          border-radius: 1rem;
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+
+  .modal_alert { 
+    border-radius: 10px;
+    padding: 1rem;   
+
+    &-failed{
+        
+        background-color: lighten(v.$color-red, 40%); // Fondo rojo claro para errores
+    }
+
+    &-success {
+        background-color: lighten(v.$color-green, 40%); // Fondo verde claro para éxito
+    }
+
+    
+  }
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+body.modal-open::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    backdrop-filter: blur(20px);
+    z-index: 1;
+}
+

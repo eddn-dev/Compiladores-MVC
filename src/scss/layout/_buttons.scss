@@ -1,0 +1,76 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.pulse{
+    position: absolute;
+    background-color: #0ef;
+    border-radius: 50%;
+    width: 15rem;
+    height: 15rem;
+    z-index: -1;
+    animation-name: colorAnimate;
+    animation-duration: 8s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    transition: all 0.5s ease;
+
+    span{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: inherit;
+        border-radius: inherit;
+        opacity: 0.4;
+        animation: pulseAnimate 4s ease-out infinite;
+        animation-delay: calc(2s * var(--i));
+        transition: all 0.5s ease;
+    }
+}
+
+.main_menu-options-button{
+    .sphere_button_container{
+        &:hover{
+            + .pulse{
+                span {
+                    opacity: 0.8;
+                    animation-duration: 0.9s; // Reduce la duración para acelerar la animación
+                    animation-delay: calc(0.3s * var(--i)); // Opcional: ajustar el retraso si es necesario
+                }
+            }
+        }
+    }
+}
+
+.sphere_button{
+    width: 15rem !important;
+    height: 15rem !important;
+    transition: all 0.5s ease;
+
+    
+
+    &.clicked{
+        z-index: 10;
+        width: 25rem !important;
+        height: 25rem !important;
+
+        &+.pulse {
+            opacity: 0;
+            &+p{
+                opacity: 0;
+            }
+        }
+    }
+}
+
+@keyframes pulseAnimate{
+    100%{
+        opacity: 0;
+        transform: scale(1.5);
+    }
+}
+
+@keyframes colorAnimate{
+    100%{
+        filter: hue-rotate(360deg);
+    }
+}

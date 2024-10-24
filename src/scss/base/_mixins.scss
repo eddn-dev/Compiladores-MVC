@@ -1,0 +1,157 @@
+@use 'variables' as var;
+
+// Mixin for responsive design
+@mixin responsive($breakpoint) {
+    @if $breakpoint == 'phone' {
+        @media (min-width: var.$bk-phone) {
+            @content;
+        }
+    }
+    @else if $breakpoint == 'tablet' {
+        @media (min-width: var.$bk-tablet) {
+            @content;
+        }
+    }
+    @else if $breakpoint == 'desktop' {
+        @media (min-width: var.$bk-desktop) {
+            @content;
+        }
+    }
+    @else if $breakpoint == 'desktopXL' {
+        @media (min-width: var.$bk-large-desktop) {
+            @content;
+        }
+    }
+}
+
+@mixin container{
+    width: 95%;
+    max-width: 120rem;
+    margin: 0 auto;
+}
+
+@mixin grid($columns, $gap){
+    display: grid;
+    grid-template-columns: repeat($columns, 1fr);
+    gap: $gap;
+}
+
+@mixin grid-template($columns, $gap){
+    display: grid;
+    grid-template-columns: $columns;
+    gap: $gap;
+}
+
+@mixin list-reset{
+    list-style: none;
+    padding: 0;
+    margin: 0; 
+}
+/*
+@mixin no-margin{margin: 0;}
+@mixin no-padding{padding: 0;}
+@mixin text-center{text-align: center;}
+@mixin text-left{text-align: left;}
+@mixin text-right{text-align: right;}
+@mixin text-justify{text-align: justify;}
+@mixin text-uppercase{text-transform: uppercase;}
+@mixin text-lowercase{text-transform: lowercase;}
+@mixin text-color-primary{color: var.$color-primary;}
+@mixin text-color-secondary{color: var.$color-secondary;}
+@mixin text-color-tertiary{color: var.$color-tertiary;}
+@mixin text-color-dark{color: var.$color-dark;}
+@mixin text-color-light{color: var.$color-light;}
+@mixin text-color-white{color: var.$color-white;}
+@mixin text-color-black{color: var.$color-black;}
+@mixin bg-color-primary{background-color: var.$color-primary;}
+@mixin bg-color-secondary{background-color: var.$color-secondary;}
+@mixin bg-color-tertiary{background-color: var.$color-tertiary;}
+@mixin bg-color-dark{background-color: var.$color-dark;}
+@mixin bg-color-light{background-color: var.$color-light;}
+@mixin bg-color-white{background-color: var.$color-white;}
+@mixin bg-color-black{background-color: var.$color-black;}
+@mixin p-1{padding: var.$spacing-xs;}
+@mixin p-2{padding: var.$spacing-sm;}
+@mixin p-3{padding: var.$spacing-md;}
+@mixin p-4{padding: var.$spacing-lg;}
+@mixin p-5{padding: var.$spacing-xl;}
+@mixin p-6{padding: var.$spacing-xxl;}
+@mixin pt-1{padding-top: var.$spacing-xs;}
+@mixin pt-2{padding-top: var.$spacing-sm;}
+@mixin pt-3{padding-top: var.$spacing-md;}
+@mixin pt-4{padding-top: var.$spacing-lg;}
+@mixin pt-5{padding-top: var.$spacing-xl;}
+@mixin pt-6{padding-top: var.$spacing-xxl;}
+@mixin pb-1{padding-bottom: var.$spacing-xs;}
+@mixin pb-2{padding-bottom: var.$spacing-sm;}
+@mixin pb-3{padding-bottom: var.$spacing-md;}
+@mixin pb-4{padding-bottom: var.$spacing-lg;}
+@mixin pb-5{padding-bottom: var.$spacing-xl;}
+@mixin pb-6{padding-bottom: var.$spacing-xxl;}
+@mixin pl-1{padding-left: var.$spacing-xs;}
+@mixin pl-2{padding-left: var.$spacing-sm;}
+@mixin pl-3{padding-left: var.$spacing-md;}
+@mixin pl-4{padding-left: var.$spacing-lg;}
+@mixin pl-5{padding-left: var.$spacing-xl;}
+@mixin pl-6{padding-left: var.$spacing-xxl;}
+@mixin pr-1{padding-right: var.$spacing-xs;}
+@mixin pr-2{padding-right: var.$spacing-sm;}
+@mixin pr-3{padding-right: var.$spacing-md;}
+@mixin pr-4{padding-right: var.$spacing-lg;}
+@mixin pr-5{padding-right: var.$spacing-xl;}
+@mixin pr-6{padding-right: var.$spacing-xxl;}
+@mixin px-1{padding-left: var.$spacing-xs; padding-right: var.$spacing-xs;}
+@mixin px-2{padding-left: var.$spacing-sm; padding-right: var.$spacing-sm;}
+@mixin px-3{padding-left: var.$spacing-md; padding-right: var.$spacing-md;}
+@mixin px-4{padding-left: var.$spacing-lg; padding-right: var.$spacing-lg;}
+@mixin px-5{padding-left: var.$spacing-xl; padding-right: var.$spacing-xl;}
+@mixin px-6{padding-left: var.$spacing-xxl; padding-right: var.$spacing-xxl;}
+@mixin py-1{padding-top: var.$spacing-xs; padding-bottom: var.$spacing-xs;}
+@mixin py-2{padding-top: var.$spacing-sm; padding-bottom: var.$spacing-sm;}
+@mixin py-3{padding-top: var.$spacing-md; padding-bottom: var.$spacing-md;}
+@mixin py-4{padding-top: var.$spacing-lg; padding-bottom: var.$spacing-lg;}
+@mixin py-5{padding-top: var.$spacing-xl; padding-bottom: var.$spacing-xl;}
+@mixin py-6{padding-top: var.$spacing-xxl; padding-bottom: var.$spacing-xxl;}
+@mixin m-1{margin: var.$spacing-xs;}
+@mixin m-2{margin: var.$spacing-sm;}
+@mixin m-3{margin: var.$spacing-md;}
+@mixin m-4{margin: var.$spacing-lg;}
+@mixin m-5{margin: var.$spacing-xl;}
+@mixin m-6{margin: var.$spacing-xxl;}
+@mixin mt-1{margin-top: var.$spacing-xs;}
+@mixin mt-2{margin-top: var.$spacing-sm;}
+@mixin mt-3{margin-top: var.$spacing-md;}
+@mixin mt-4{margin-top: var.$spacing-lg;}
+@mixin mt-5{margin-top: var.$spacing-xl;}
+@mixin mt-6{margin-top: var.$spacing-xxl;}
+@mixin mb-1{margin-bottom: var.$spacing-xs;}
+@mixin mb-2{margin-bottom: var.$spacing-sm;}
+@mixin mb-3{margin-bottom: var.$spacing-md;}
+@mixin mb-4{margin-bottom: var.$spacing-lg;}
+@mixin mb-5{margin-bottom: var.$spacing-xl;}
+@mixin mb-6{margin-bottom: var.$spacing-xxl;}
+@mixin ml-1{margin-left: var.$spacing-xs;}
+@mixin ml-2{margin-left: var.$spacing-sm;}
+@mixin ml-3{margin-left: var.$spacing-md;}
+@mixin ml-4{margin-left: var.$spacing-lg;}
+@mixin ml-5{margin-left: var.$spacing-xl;}
+@mixin ml-6{margin-left: var.$spacing-xxl;}
+@mixin mr-1{margin-right: var.$spacing-xs;}
+@mixin mr-2{margin-right: var.$spacing-sm;}
+@mixin mr-3{margin-right: var.$spacing-md;}
+@mixin mr-4{margin-right: var.$spacing-lg;}
+@mixin mr-5{margin-right: var.$spacing-xl;}
+@mixin mr-6{margin-right: var.$spacing-xxl;}
+@mixin mx-1{margin-left: var.$spacing-xs; margin-right: var.$spacing-xs;}
+@mixin mx-2{margin-left: var.$spacing-sm; margin-right: var.$spacing-sm;}
+@mixin mx-3{margin-left: var.$spacing-md; margin-right: var.$spacing-md;}
+@mixin mx-4{margin-left: var.$spacing-lg; margin-right: var.$spacing-lg;}
+@mixin mx-5{margin-left: var.$spacing-xl; margin-right: var.$spacing-xl;}
+@mixin mx-6{margin-left: var.$spacing-xxl; margin-right: var.$spacing-xxl;}
+@mixin my-1{margin-top: var.$spacing-xs; margin-bottom: var.$spacing-xs;}
+@mixin my-2{margin-top: var.$spacing-sm; margin-bottom: var.$spacing-sm;}
+@mixin my-3{margin-top: var.$spacing-md; margin-bottom: var.$spacing-md;}
+@mixin my-4{margin-top: var.$spacing-lg; margin-bottom: var.$spacing-lg;}
+@mixin my-5{margin-top: var.$spacing-xl; margin-bottom: var.$spacing-xl;}
+@mixin my-6{margin-top: var.$spacing-xxl; margin-bottom: var.$spacing-xxl;}
+*/

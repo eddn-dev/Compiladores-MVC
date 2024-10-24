@@ -1,0 +1,94 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+
+
+.blur {
+  z-index: 1;
+  position: fixed;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slide-in-fwd-center {
+    opacity: 1;
+    visibility: visible;
+    -webkit-animation: slide-in-fwd-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+            animation: slide-in-fwd-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+.slide-out-fwd-center {
+    opacity: 1;
+    visibility: visible;
+	-webkit-animation: slide-out-fwd-center 0.2s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+	        animation: slide-out-fwd-center 0.2s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+}
+
+
+ @-webkit-keyframes slide-in-fwd-center {
+    0% {
+      -webkit-transform: translateZ(-1400px);
+              transform: translateZ(-1400px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateZ(0);
+              transform: translateZ(0);
+      opacity: 1;
+    }
+  }
+  @keyframes slide-in-fwd-center {
+    0% {
+      -webkit-transform: translateZ(-1400px);
+              transform: translateZ(-1400px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateZ(0);
+              transform: translateZ(0);
+      opacity: 1;
+    }
+  }
+  
+@-webkit-keyframes slide-out-fwd-center {
+    0% {
+      -webkit-transform: translateZ(1);
+              transform: translateZ(1);
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: translateZ(600px);
+              transform: translateZ(600px);
+      opacity: 0;
+    }
+  }
+  @keyframes slide-out-fwd-center {
+    0% {
+      -webkit-transform: translateZ(1);
+              transform: translateZ(1);
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: translateZ(600px);
+              transform: translateZ(600px);
+      opacity: 0;
+    }
+  }
+
+.slide-in-fwd-center {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s ease;
+    animation: slide-in-fwd-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+.slide-out-fwd-center {
+    opacity: 1;
+    visibility: visible;
+    animation: slide-out-fwd-center 0.2s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+}
