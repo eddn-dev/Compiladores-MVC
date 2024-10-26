@@ -1,4 +1,5 @@
 {
+    
     "name": "eduardo/appsalon",
     "description": "Proyecto PHP8 Model View Controller, SQL, SASS, Gulp, Tensor",
     "type": "project",
