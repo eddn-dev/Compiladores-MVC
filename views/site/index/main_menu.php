@@ -26,7 +26,7 @@
                 <span style="--i:2;"></span>
                 <span style="--i:3;"></span>
             </div>
-            <p>Unión para analizador léxico</p>
+            <p>Unión para <br> analizador léxico</p>
         </div>
         <div class="main_menu-options-button">
             <div class="sphere_button_container" id="sphere3-container">
