@@ -16,6 +16,8 @@
             font-size: 5rem;
             text-transform: uppercase;
             font-family: v.$font;
+
+            color: rgb(94, 24, 2);
           
             text-shadow: 
               -2px -2px 0 white,  
@@ -26,14 +28,15 @@
             // Fondo con efecto acuarela
             background-image: radial-gradient(
               circle at center, 
+              rgba(255, 166, 0, 0.42), // Color naranja con transparencia
               rgba(255, 166, 0, 0.4), // Color naranja con transparencia
               rgba(255, 140, 0, 0.2), // Un tono más oscuro con más transparencia
-              rgba(255, 215, 0, 0.1)  // Un tono más claro con aún más transparencia
+              rgba(255, 215, 0, 0.1),  // Un tono más claro con aún más transparencia
             );
-            padding: 10px; 
+
             border-radius: 15px; 
             display: inline-block;
-            width: 80%; 
+            width: 85%; 
           
             // Sombra para difuminar el borde
             box-shadow: 0 0 10px rgba(255, 166, 0, 0.3);
@@ -42,6 +45,11 @@
         p{
             font-family: Verdana, Geneva, Tahoma, sans-serif;
             font-size: 2rem;
+            
+            background-color: rgba(255, 250, 240, 0.5); 
+            
+            display: inline-block;
+            width: 45%; 
         }
     }
 
@@ -75,6 +83,11 @@
                 font-size: 2rem;
                 text-align: center;
                 font-size: 2rem;
+
+                background-color: rgba(255, 250, 240, 0.3); 
+            
+                // Bordes suaves
+                border-radius: 15px; // Ajusta el valor para controlar la suavidad
             }
         }
     }
