@@ -152,5 +152,5 @@ class AnalizadorLexico {
 const SimbolosEspeciales = {
     FIN: -1,
     ERROR: -2,
-    OMITIR: -3
+    OMITIR: 20
 };
