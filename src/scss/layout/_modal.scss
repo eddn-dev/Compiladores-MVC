@@ -148,7 +148,6 @@
       table {
         width: 100%;
         border-collapse: collapse; 
-        margin-bottom: 1rem;
         border-radius: 10px; // Bordes redondeados para la tabla
         overflow: hidden; // Para que los bordes redondeados se apliquen correctamente
 
@@ -341,7 +340,6 @@
   }
 }
 
-// Estilos para cuando el modal está abierto
 body.modal-open {
   overflow: hidden;
 }
@@ -353,8 +351,6 @@ body.modal-open::before {
   backdrop-filter: blur(20px);
   z-index: 1;
 }
-
-/* Estilos adicionales para mensajes de error */
 
 .error-cell {
   padding: 0;
@@ -370,9 +366,4 @@ body.modal-open::before {
   padding: 5px;
   box-sizing: border-box;
   background-color: darken(v.$color-white, 10); /* Fondo ligeramente rosado */
-}
-
-/* Estilo para los inputs con error */
-.input-error {
-  border-color: v.$color-red;
 }

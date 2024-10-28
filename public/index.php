@@ -21,7 +21,6 @@ $router->get('/modal-option-3', [siteController::class, 'modalOption3']);
 $router->get('/modal-option-4', [siteController::class, 'modalOption4']);
 $router->get('/modal-option-5', [siteController::class, 'modalOption5']);
 $router->get('/modal-option-6', [siteController::class, 'modalOption6']);
-$router->post('/iniciarDescarga', [siteController::class, 'iniciarDescarga']);
 
 
 $router->checkRoutes();
