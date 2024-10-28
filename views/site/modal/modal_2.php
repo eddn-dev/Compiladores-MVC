@@ -1,17 +1,33 @@
 <div class="blur">
     <!-- Contenido del modal -->
-    <div class="modal bg85" id="modal2">
+    <div class="modal bg85" id="modal14">
         <button class="modal_close">&times;</button>
         <div class="modal_title">
-            Unión para analizador léxico y AFD
+            Unión para Analizador Léxico y AFD
         </div>
         <div class="modal_canvas_container">
-            <!-- El canvas se moverá a este contenedor -->
+            <!-- Aquí puedes agregar un canvas si es necesario -->
         </div>
         <div class="modal_content">
-            <div class="option" style="--i: 0">Opción 1</div>
-            <div class="option" style="--i: 1">Opción 2</div>
-            <div class="option" style="--i: 2">Opción 3</div>
+            <form id="form-obtener-afd">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID AFN</th>
+                            <th>Unir</th>
+                            <th>Token</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-afns">
+                        <!-- Las filas se generarán dinámicamente -->
+                    </tbody>
+                </table>
+                <small id="tabla-afns-alert" class="error-message"></small>
+                <div class="modal_buttons">
+                    <button type="submit" class="modal_button accept">Obtener AFD</button>
+                    <button type="button" class="modal_button cancel">Cancelar</button>
+                </div>
+            </form>
         </div>
     </div>
-</div>    
+</div>

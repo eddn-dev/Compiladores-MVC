@@ -10,6 +10,9 @@
   width: 90%;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   text-align: center;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
 
   @include m.responsive('tablet') {
     max-width: 600px;
@@ -51,6 +54,7 @@
   .modal_title {
     font-size: 2rem;
     margin-bottom: 1.5rem;
+    flex-shrink: 0; // Evita que el título se encoja
   }
 
   .modal_canvas_container {
@@ -70,6 +74,8 @@
   .modal_content {
     padding: 1rem;
     text-align: left;
+    overflow-y: auto; // Permitir scroll vertical en el contenido
+    flex-grow: 1; // Permite que el contenido crezca y ocupe el espacio disponible
 
     h2 {
       font-size: 2.4rem;
@@ -126,18 +132,90 @@
       }
 
       .alert-message {
-          background-color: v.$color-green;
-          color: v.$color-white;
-          padding: 0.5rem 1rem;
-          border-radius: 5px;
-          font-size: 1.5rem;
-          margin-top: 5px;
-          transition: all 0.5s ease;
+        background-color: v.$color-green;
+        color: v.$color-white;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        font-size: 1.5rem;
+        margin-top: 5px;
+        transition: all 0.5s ease;
 
-          &.error{
-            background-color: v.$color-red;
+        &.error {
+          background-color: v.$color-red;
+        }
+      }
+      
+      table {
+        width: 100%;
+        border-collapse: collapse; 
+        margin-bottom: 1rem;
+        border-radius: 10px; // Bordes redondeados para la tabla
+        overflow: hidden; // Para que los bordes redondeados se apliquen correctamente
+
+        thead {
+          background-color: transparentize(v.$color-white, 0.8); // Fondo ligeramente distinto al modal
+          
+          th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: bold;
           }
-      }    
+        }
+
+        tbody {
+          background-color: transparentize(v.$color-white, 0.9); // Fondo ligeramente distinto al modal
+          
+          tr {
+            width: 100%; 
+            &:nth-child(even) {
+              background-color: transparentize(v.$color-white, 0.95); // Color alternado para las filas
+            }
+
+            td {
+              padding: 1rem;
+              text-align: left;
+              border-bottom: 1px solid lighten(#ccc, 20%); // Línea sutil entre filas
+            }
+          }
+        }
+
+        // Estilos para el formulario dentro de la tabla
+        input[type="checkbox"] {
+          margin-right: 0.5rem;
+          appearance: none; // Elimina el estilo por defecto del checkbox
+          width: 1.8rem;
+          height: 1.8rem;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          display: grid;
+          place-content: center; 
+
+          &:checked {
+            background-color: v.$color-green;
+            border-color: v.$color-green;
+
+            &::before {
+              content: "✓";
+              color: v.$color-white;
+              font-size: 1.4rem;
+            }
+          }
+        }
+      }
+
+      .error-message { 
+        background-color: lighten(v.$color-red, 40%); // Fondo rojo claro para errores
+        color: v.$color-red;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        font-size: 1.5rem;
+        margin-top: 5px;
+        display: block; // Para que ocupe todo el ancho
+      }
+
+      .modal_buttons {
+        margin-top: 2rem;
+      }
     }
 
     /* Estilos para botones dentro del formulario */
@@ -217,28 +295,28 @@
       margin-bottom: 1rem;
     }
 
-    .modal_create_layout{
+    .modal_create_layout {
       width: 100%;
       height: auto;
       display: flex;
       gap: 2rem;
       flex-direction: column-reverse;
 
-      @include m.responsive('tablet'){
+      @include m.responsive('tablet') {
         flex-direction: row;
       }
 
-      .modal_automaton_form{
+      .modal_automaton_form {
         flex: 1 1;
       }
 
-      .modal_automaton_previews{
+      .modal_automaton_previews {
         flex: 1 1;
         display: grid;
         grid-template-columns: 1fr;
         gap: 2rem;
 
-        .automaton_preview{
+        .automaton_preview {
           min-height: 20rem;
           background-color: rgb(255, 241, 223);
           border-radius: 1rem;
@@ -253,28 +331,48 @@
     border-radius: 10px;
     padding: 1rem;   
 
-    &-failed{
-        
-        background-color: lighten(v.$color-red, 40%); // Fondo rojo claro para errores
+    &-failed {
+      background-color: lighten(v.$color-red, 40%); // Fondo rojo claro para errores
     }
 
     &-success {
-        background-color: lighten(v.$color-green, 40%); // Fondo verde claro para éxito
+      background-color: lighten(v.$color-green, 40%); // Fondo verde claro para éxito
     }
-
-    
   }
 }
 
+// Estilos para cuando el modal está abierto
 body.modal-open {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 body.modal-open::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    backdrop-filter: blur(20px);
-    z-index: 1;
+  content: '';
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(20px);
+  z-index: 1;
 }
 
+/* Estilos adicionales para mensajes de error */
+
+.error-cell {
+  padding: 0;
+  margin: 0;
+}
+
+.error-cell .error-message {
+  display: block;
+  width: 100%;
+  text-align: left;
+  color: v.$color-red;
+  font-size: 0.9em;
+  padding: 5px;
+  box-sizing: border-box;
+  background-color: darken(v.$color-white, 10); /* Fondo ligeramente rosado */
+}
+
+/* Estilo para los inputs con error */
+.input-error {
+  border-color: v.$color-red;
+}

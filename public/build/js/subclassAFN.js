@@ -1,0 +1,1 @@
+class Estado{constructor(){this.Id_Edo=Estado.Cant_Edos,Estado.Cant_Edos+=1,this.Transiciones=new Set,this.Edo_Acept=!1,this.Token=-1}}class Transicion{constructor(o,s,t){this.Simbolo_Inferior=o,this.Simbolo_Superior=s,this.Edo_Destino=t}}Estado.Cant_Edos=0;const Epsilon="ε";

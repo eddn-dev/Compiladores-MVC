@@ -90,3 +90,5 @@
         </div>
     </div>
 </div>
+<!-- Contenedor de notificaciones -->
+<div id="notification-container"></div>
