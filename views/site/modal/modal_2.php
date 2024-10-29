@@ -1,6 +1,6 @@
 <div class="blur">
     <!-- Contenido del modal -->
-    <div class="modal bg85" id="modal14">
+    <div class="modal bg85" id="modal2">
         <button class="modal_close">&times;</button>
         <div class="modal_title">
             Unión para Analizador Léxico y AFD

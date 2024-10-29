@@ -15,6 +15,9 @@ function handleModal(modal) {
     const modalId = modal.getAttribute('id');
 
     switch (modalId) {
+        case 'modal2':
+            handleObtenerAFD(modal);
+            break;
         case 'modal3':
             handleProbarAFD(modal);
             break;
@@ -35,9 +38,6 @@ function handleModal(modal) {
             break;
         case 'modal13':
             handleAplicarOpcional(modal);
-            break;
-        case 'modal14':
-            handleObtenerAFD(modal);
             break;
     }
 }

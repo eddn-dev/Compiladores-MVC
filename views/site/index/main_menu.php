@@ -38,7 +38,7 @@
                 <span style="--i:2;"></span>
                 <span style="--i:3;"></span>
             </div>
-            <p>AFN a AFD</p>
+            <p>Probar AFD</p>
         </div>
         <div class="main_menu-options-button">
             <div class="sphere_button_container" id="sphere4-container">
@@ -50,7 +50,7 @@
                 <span style="--i:2;"></span>
                 <span style="--i:3;"></span>
             </div>
-            <p>Analizar cadena</p>
+            <p>ER a AFN</p>
         </div>
         <div class="main_menu-options-button">
             <div class="sphere_button_container" id="sphere5-container">
@@ -62,7 +62,7 @@
                 <span style="--i:2;"></span>
                 <span style="--i:3;"></span>
             </div>
-            <p>Cargar AFD</p>
+            <p>Calculadora</p>
         </div>
         <div class="main_menu-options-button">
             <div class="sphere_button_container" id="sphere6-container">
