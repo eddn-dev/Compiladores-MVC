@@ -80,14 +80,14 @@ const spheres = [
     },
     {
         id: 'sphere3',
-        texture: 'build/img/textures/texture_3.avif',
+        texture: 'build/img/textures/texture_4.avif',
         rotX: 0,
         rotY: 0,
         rotZ: 0
     },
     {
         id: 'sphere4',
-        texture: 'build/img/textures/texture_4.avif',
+        texture: 'build/img/textures/texture_8.avif',
         rotX: 0.0,
         rotY: 0,
         rotZ: 0
