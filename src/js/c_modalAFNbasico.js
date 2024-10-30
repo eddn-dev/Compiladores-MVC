@@ -35,7 +35,7 @@ function handleCrearAFNBasico(modal) {
                 selector: '#end-symbol',
                 alertSelector: '#end-symbol-alert',
                 validate: (value, fields) => {
-                    const startSymbol = fields['startSymbol'].value.trim();
+                    const startSymbol = fields['startSymbol'].value;
                     if (value) {
                         if (!esCaracterValido(value)) {
                             return 'El símbolo de final debe ser un carácter válido o estar vacío.';
@@ -49,7 +49,7 @@ function handleCrearAFNBasico(modal) {
         ],
         onSubmit: (fields, form) => {
             const automatonId = fields['automatonId'].value.trim();
-            const startSymbol = fields['startSymbol'].value.trim();
+            const startSymbol = fields['startSymbol'].value;
             const endSymbol = fields['endSymbol'].value.trim() || null;
 
             // Crear el AFN usando tus clases

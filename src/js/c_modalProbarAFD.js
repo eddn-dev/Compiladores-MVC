@@ -165,7 +165,9 @@ function handleProbarAFD(modal) {
 
             let token;
             try {
-                while ((token = analizadorLexico.yylex()) !== SimbolosEspeciales.FIN) {
+                while (1 == 1) {
+
+                    token = analizadorLexico.yylex();
                     const lexema = analizadorLexico.getLexema();
 
                     const row = document.createElement('tr');
@@ -177,14 +179,11 @@ function handleProbarAFD(modal) {
                     row.appendChild(lexemaCell);
                     row.appendChild(tokenCell);
                     tableBody.appendChild(row);
-                }
 
-                // Agregar la fila "Fin de cadena" al final
-                const row = document.createElement('tr');
-                const lexemaCell = document.createElement('td');
-                lexemaCell.textContent = 'Fin de cadena';
-                const tokenCell = document.createElement('td');
-                tokenCell.textContent = '0';
+                    if(token == SimbolosEspeciales.FIN){
+                        break;
+                    }
+                }
 
                 row.appendChild(lexemaCell);
                 row.appendChild(tokenCell);
