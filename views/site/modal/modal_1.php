@@ -16,6 +16,8 @@
                 <div class="button_option" data-option-id="4">Cerradura de kleene</div>
                 <div class="button_option" data-option-id="5">Cerradura positiva</div>
                 <div class="button_option" data-option-id="6">AFN opcional</div>
+                <div class="no_option"></div>
+                <div class="button_option" data-option-id="7">E.R a AFN</div>
             </div>
         </div>
     </div>

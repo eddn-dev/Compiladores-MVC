@@ -1,9 +1,9 @@
 <div class="blur">
     <!-- Contenido del modal -->
-    <div class="modal bg85" id="modal6">
+    <div class="modal" id="modal14">
         <button class="modal_close">&times;</button>
         <div class="modal_title">
-            ER a AFD
+            ER a AFN
         </div>
         <div class="modal_canvas_container">
             <!-- El canvas se moverá a este contenedor -->

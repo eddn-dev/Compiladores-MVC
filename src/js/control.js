@@ -39,6 +39,9 @@ function handleModal(modal) {
         case 'modal13':
             handleAplicarOpcional(modal);
             break;
+        case 'modal14':
+            handleAplicarERaAFN(modal);
+            break;
     }
 }
 

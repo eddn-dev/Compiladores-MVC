@@ -1,6 +1,6 @@
 <div class="blur">
     <!-- Contenido del modal -->
-    <div class="modal bg85" id="modal5">
+    <div class="modal bg30" id="modal4">
         <button class="modal_close">&times;</button>
         <div class="modal_title">
             Cargar AFD

@@ -1,5 +1,5 @@
 <div class="blur">
-    <div class="modal bg85 m1000" id="modal3">
+    <div class="modal bg30 m1000" id="modal3">
         <button class="modal_close">&times;</button>
         <div class="modal_title">
             Probar AFD

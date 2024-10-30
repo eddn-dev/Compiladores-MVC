@@ -54,9 +54,17 @@
   .modal_title {
     font-size: 2rem;
     margin-bottom: 1.5rem;
-    flex-shrink: 0; // Evita que el título se encoja
+    flex-shrink: 0; 
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 3rem;
+    color: rgb(53, 5, 5);
+    text-shadow: 
+      -2px -2px 0 white,  
+       2px -2px 0 white,
+      -2px  2px 0 white,
+       2px  2px 0 white; 
   }
-
+  
   .modal_canvas_container {
     width: 250px;
     height: 250px;
@@ -266,7 +274,7 @@
 
       .button_option {
         padding: 1rem;
-        background-color: #2196f3; // Azul
+        background-color: #5e55b3; // Azul
         color: white;
         text-align: center;
         border-radius: 5px;
@@ -276,8 +284,19 @@
         font-family: v.$font-secondary;
 
         &:hover {
-          background-color: darken(#2196f3, 10%);
+          background-color: lighten(#5e55b3, 10%);
         }
+      }
+      .no_option {
+        padding: 1rem;
+        background-color: #ffffff00; // Azul
+        color: rgba(255, 255, 255, 0);
+        text-align: center;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1.6rem;
+        transition: background-color 0.3s ease;
+        font-family: v.$font-secondary;
       }
     }
 
