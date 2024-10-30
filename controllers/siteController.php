@@ -20,6 +20,7 @@ class siteController {
             '<script src="build/js/c_modalProbarAFD.js"></script>',
             '<script src="build/js/c_modalUnirAFN.js"></script>',
             '<script src="build/js/c_modalObtenerAFD.js"></script>',
+            '<script src="build/js/c_modalERaAFN.js"></script>',
             '<script src="build/js/scene.js" type="module"></script>',
             '<script src="build/js/buttons.js"></script>',
             '<script src="build/js/AnalizLex.js"></script>'
