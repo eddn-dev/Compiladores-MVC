@@ -152,7 +152,7 @@ class AnalizadorLexico {
 
 // Definición de símbolos especiales
 const SimbolosEspeciales = {
-    FIN: -1,
+    FIN: 0,
     ERROR: -2,
     OMITIR: 20
 };
