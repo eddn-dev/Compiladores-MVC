@@ -54742,24 +54742,6 @@ var spheres = [{
   rotX: 0.0,
   rotY: 0,
   rotZ: 0
-}, {
-  id: 'sphere5',
-  texture: 'build/img/textures/texture_5.avif',
-  rotX: 0.0,
-  rotY: 0.1,
-  rotZ: 0
-}, {
-  id: 'sphere6',
-  texture: 'build/img/textures/texture_6.avif',
-  rotX: 0.0,
-  rotY: 0,
-  rotZ: 0
-}, {
-  id: 'sphere7',
-  texture: 'build/img/textures/texture_7.avif',
-  rotX: 0.0,
-  rotY: 0,
-  rotZ: 0
 }];
 spheres.forEach(function (sphereData) {
   var scene = new three__WEBPACK_IMPORTED_MODULE_0__.Scene();

@@ -5,12 +5,24 @@
         <div class="modal_title">
             ER a AFN
         </div>
-        <div class="modal_canvas_container">
-            <!-- El canvas se moverá a este contenedor -->
-        </div>
         <div class="modal_content">
-            <div class="modal_alert modal_alert-failed">
-                Aún no implementado
+            <div class="modal_create_layout">
+                <div class="modal_automaton_previews">
+                    <div class="automaton_preview" id="1"></div>
+                    <div class="automaton_preview" id="2"></div>
+                </div>
+                <div class="modal_automaton_form">
+                    <form>
+                        <div class="form-group">
+                            <label for="regex-input">Ingrese la expresión regular para generar un autómata:</label>
+                            <input type="text" id="regex-input" name="regex-input" placeholder="Escribe la expresión regular aquí">
+                        </div>
+                        <div class="modal_buttons">
+                            <button type="button" class="modal_button cancel">Cancelar</button>
+                            <button type="submit" class="modal_button accept">Aceptar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

@@ -77,4 +77,8 @@ class siteController {
     public static function modalOption6(Router $router) {
         $router->render('site/modal/modal_option_6', [], false);
     }
+
+    public static function modalOption7(Router $router) {
+        $router->render('site/modal/modal_option_7', [], false);
+    }
 }
