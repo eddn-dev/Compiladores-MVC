@@ -92,6 +92,9 @@ function handleProbarAFD(modal) {
     function renderAnalysisUI() {
         modalContentDinamic.innerHTML = ''; // Limpiar contenido
 
+        //Crear contenedor lado izquierdo
+        const contenedorIzquierdo = document.createElement('div');
+        contenedorIzquierdo.classList.add('content_options');
         // Crear botón "Cambiar AFD"
         const cambiarAFDButton = document.createElement('button');
         cambiarAFDButton.textContent = ' Cambiar AFD ';
