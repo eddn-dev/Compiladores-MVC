@@ -101,7 +101,7 @@ function handleAFNModal(modal, config) {
         let isValid = true;
 
         config.fields.forEach(field => {
-            const value = formFields[field.name].value.trim();
+            const value = formFields[field.name].value;
             const alertMessage = alertMessages[field.name];
 
             // Resetear el mensaje de alerta

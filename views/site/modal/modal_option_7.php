@@ -9,10 +9,14 @@
             <div class="modal_create_layout">
                 <div class="modal_automaton_previews">
                     <div class="automaton_preview" id="1"></div>
-                    <div class="automaton_preview" id="2"></div>
                 </div>
                 <div class="modal_automaton_form">
                     <form>
+                        <div class="form-group">
+                            <label for="automaton-id">ID:</label>
+                            <input type="text" id="automaton-id" name="automaton-id">
+                            <small id="automaton-id-alert" class="alert-message"></small> 
+                        </div>
                         <div class="form-group">
                             <label for="regex-input">Ingrese la expresión regular para generar un autómata:</label>
                             <input type="text" id="regex-input" name="regex-input" placeholder="Escribe la expresión regular aquí">

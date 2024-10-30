@@ -50,7 +50,7 @@ function handleCrearAFNBasico(modal) {
         onSubmit: (fields, form) => {
             const automatonId = fields['automatonId'].value.trim();
             const startSymbol = fields['startSymbol'].value;
-            const endSymbol = fields['endSymbol'].value.trim() || null;
+            const endSymbol = fields['endSymbol'].value || null;
 
             // Crear el AFN usando tus clases
             let nuevoAFN = AFN.Crear_Basico_AFN(startSymbol, endSymbol);

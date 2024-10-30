@@ -70,7 +70,7 @@ function handleProbarAFD(modal) {
         for (let i = 0; i < lines.length; i++) {
             const valoresFila = lines[i].split(',');
     
-            if (valoresFila.length !== 258) { // Cambiado de 257 a 258
+            if (valoresFila.length !== 258) {
                 throw new Error(`La línea ${i + 1} no tiene 258 columnas.`);
             }
     
@@ -151,11 +151,7 @@ function handleProbarAFD(modal) {
 
         // Evento para probar el AFD con la cadena ingresada
         probarAFDButton.addEventListener('click', () => {
-            const cadena = cadenaInput.value.trim();
-            if (cadena === '') {
-                mostrarNotificacion('Ingrese una cadena para analizar.', 'error');
-                return;
-            }
+            const cadena = cadenaInput.value;
 
             // Configurar la cadena en el Analizador Léxico
             analizadorLexico.setSigma(cadena);
@@ -168,6 +164,7 @@ function handleProbarAFD(modal) {
                 while (1 == 1) {
 
                     token = analizadorLexico.yylex();
+
                     const lexema = analizadorLexico.getLexema();
 
                     const row = document.createElement('tr');
@@ -185,9 +182,6 @@ function handleProbarAFD(modal) {
                     }
                 }
 
-                row.appendChild(lexemaCell);
-                row.appendChild(tokenCell);
-                tableBody.appendChild(row);
 
                 mostrarNotificacion('Análisis completado.', 'success');
             } catch (error) {
