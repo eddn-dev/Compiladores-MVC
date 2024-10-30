@@ -86,7 +86,7 @@ class AnalizadorLexico {
             this.Pila.push(this.IndiceCaracterActual);
             if (this.IndiceCaracterActual >= this.CadenaSigma.length) {
                 this.Lexema = "";
-                return SimbolosEspeciales.FIN;
+                return SimbolosEspeciales.FIN; // Retorna SimbolosEspeciales.FIN al final del análisis
             }
             this.IniLexema = this.IndiceCaracterActual;
             this.EdoActual = 0;
@@ -139,6 +139,8 @@ class AnalizadorLexico {
             }
         }
     }
+    
+    
     
 
     undoToken() {

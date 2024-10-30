@@ -261,6 +261,48 @@
       }
     }
 
+    .cargar-afd {
+      background-color: #e26db6; 
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px; 
+      &:hover {
+        background-color: darken(#e26db6, 10%); 
+      }
+    }
+    .cambiar-afd {
+      margin-left: 10px;
+      background-color: #226f5b; 
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px; 
+      &:hover {
+        background-color: darken(#226f5b, 10%); 
+      }
+    }
+    .probar-afd {
+      margin-left: 10px;
+      background-color: #7e4c0a; 
+      color: white;
+      margin: 10px 20px;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px; 
+      &:hover {
+        background-color: lighten(#7e4c0a, 10%); 
+      }
+    }
+    .ing-cadena{
+      margin-left: 10px;
+      padding: auto;
+      width: 20rem;
+    }
+
     /* Estilos para la grilla de opciones */
     .modal_grid {
       display: grid;

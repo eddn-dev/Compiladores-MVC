@@ -9,7 +9,7 @@
         <div class="modal_content">
             <div class="modal_content_dinamic">
                 
-            </div>
+            </div>  
             <div class="modal_buttons">
                 <button class="modal_button accept">Aceptar</button>
                 <button class="modal_button cancel">Cancelar</button>

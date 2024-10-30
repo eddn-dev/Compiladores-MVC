@@ -11,8 +11,8 @@ function handleProbarAFD(modal) {
 
         // Crear botón "Cargar Archivo de AFD"
         const cargarAFDButton = document.createElement('button');
-        cargarAFDButton.textContent = 'Cargar Archivo de AFD';
-        cargarAFDButton.classList.add('modal_button');
+        cargarAFDButton.textContent = ' Cargar Archivo de AFD ';
+        cargarAFDButton.classList.add('modal_button', 'cargar-afd');
 
         modalContentDinamic.appendChild(cargarAFDButton);
 
@@ -94,19 +94,19 @@ function handleProbarAFD(modal) {
 
         // Crear botón "Cambiar AFD"
         const cambiarAFDButton = document.createElement('button');
-        cambiarAFDButton.textContent = 'Cambiar AFD';
-        cambiarAFDButton.classList.add('modal_button');
+        cambiarAFDButton.textContent = ' Cambiar AFD ';
+        cambiarAFDButton.classList.add('modal_button', 'cambiar-afd');
 
         // Crear input para la cadena a analizar
         const cadenaInput = document.createElement('input');
         cadenaInput.type = 'text';
-        cadenaInput.placeholder = 'Ingrese la cadena a analizar';
-        cadenaInput.classList.add('input_text'); // Clase para aplicar estilos al input
+        cadenaInput.placeholder = ' Ingrese la cadena a analizar ';
+        cadenaInput.classList.add('input_text', 'ing-cadena'); // Clase para aplicar estilos al input
 
         // Crear botón "Probar AFD"
         const probarAFDButton = document.createElement('button');
-        probarAFDButton.textContent = 'Probar AFD';
-        probarAFDButton.classList.add('modal_button');
+        probarAFDButton.textContent = ' Probar AFD ';
+        probarAFDButton.classList.add('modal_button', 'probar-afd');
 
         // Crear contenedor para los resultados
         const resultadosDiv = document.createElement('div');
@@ -175,6 +175,17 @@ function handleProbarAFD(modal) {
                     row.appendChild(tokenCell);
                     tableBody.appendChild(row);
                 }
+
+                // Agregar la fila "Fin de cadena" al final
+                const row = document.createElement('tr');
+                const lexemaCell = document.createElement('td');
+                lexemaCell.textContent = 'Fin de cadena';
+                const tokenCell = document.createElement('td');
+                tokenCell.textContent = '0';
+
+                row.appendChild(lexemaCell);
+                row.appendChild(tokenCell);
+                tableBody.appendChild(row);
 
                 mostrarNotificacion('Análisis completado.', 'success');
             } catch (error) {
