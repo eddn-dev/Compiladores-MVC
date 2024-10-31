@@ -260,8 +260,12 @@
         }
 
         &.calculate {
+          margin-top: -10rem;
+          max-height: 4.5rem;
+          margin-left: -8rem;
           background-color: #8bf436;
           color: rgb(0, 0, 0);
+          font-size: 2rem;
 
           &:hover {
             background-color: darken(#8bf436, 20%);
@@ -270,6 +274,16 @@
       }
     }
 
+    #operation-result{
+      background-color: #f89bd9c7;
+      max-width: 60rem;
+      padding-left: 1.2rem;
+    }
+    #postfix-expression{
+      background-color: #fdc693dc;
+      max-width: 60rem;
+      padding-left: 1.2rem;
+    }
     .cargar-afd {
       background-color: #e26db6; 
       color: white;
@@ -278,7 +292,7 @@
       cursor: pointer;
       border-radius: 5px; 
       &:hover {
-        background-color: darken(#e26db6, 10%); 
+        background-color: darken(#e26db6, 15%); 
       }
     }
     .cambiar-afd {
