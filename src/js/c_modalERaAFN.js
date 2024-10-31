@@ -23,7 +23,7 @@ function handleAplicarERaAFN(modal) {
                 selector: '#regex-input',
                 alertSelector: '#regex-input-alert',
                 validate: (value) => {
-                    if (!value || value.trim() === '') {
+                    if (!value) {
                         return 'La expresión regular es obligatoria.';
                     }
                     // Opcional: agregar validaciones adicionales de la expresión regular
