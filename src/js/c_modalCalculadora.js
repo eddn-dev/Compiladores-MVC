@@ -31,7 +31,7 @@ function validarOperacion(valorOperacion, alertMessage) {
 
 // Función para realizar el cálculo y mostrar el resultado
 function calcularResultado(operacion, resultOutput, modal) {
-    cargarAutomataDesdeArchivo('build/utils/ER_AFN.txt')
+    cargarAutomataDesdeArchivo('build/utils/afdCalculadora.txt')
         .then(matrizTransicionAFD => {
             if (!window.expReg) {
                 window.expReg = new ExpresionRegular('', matrizTransicionAFD);

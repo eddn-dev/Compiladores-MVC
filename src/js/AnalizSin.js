@@ -1,198 +1,236 @@
+// Definición de tokens
 const TOKEN = {
-    SUMA: 10,
-    RESTA: 20,
-    MULTI: 30,
-    DIV: 40,
-    PARENL: 50,
-    PARENR: 60,
-    ESPACIO: 70,
-    NUM: 80,
-    FIN: 0,
+    OR: 10,
+    CONCAT: 20,
+    CERRPOS: 30,
+    CERRKLEEN: 40,
+    CERROPC: 50,
+    LPAREN: 60,
+    SPACE: 70,
+    RPAREN: 80,
+    LCORCH: 90,
+    RCORCH: 100,
+    DASH: 110,
+    SIMB: 120,
+    END: 0,
 };
 
- function cargarAutomata() {
-    const rutaArchivoAFD = '/Compiladores MVC/afdCalculadora.txt';
-    return  cargarAutomataDesdeArchivo(rutaArchivoAFD);
+// Definición de nodo para el árbol sintáctico
+class Nodo {
+    constructor(name, children = []) {
+        this.name = name;
+        this.children = children;
+    }
 }
 
-function gramaticaAutomata()  {
-    const matriz =  cargarAutomata();
-    const AL = new AnalizadorLexico("", matriz);
-
-    const data = [];
-
-    function E(resultado) {
-        const temp = { val: 0 };
-        const tree = { name: "E", children: [] };
-
-        const tResult = T(temp);
-        if (tResult.val) {
-            resultado.val = temp.val;
-            tree.children.push(tResult.tree);
-            const epResult = Ep(resultado);
-            if (epResult.val) {
-                tree.children.push(epResult.tree);
-            }
-            return { val: true, tree: tree };
-        }
-        return { val: false, tree: tree };
+// Clase ExpresionRegular
+class ExpresionRegular {
+    constructor(sigma = "", matrizTransicionAFD = null) {
+        this.ER = sigma;
+        this.AL = new AnalizadorLexico(sigma, matrizTransicionAFD);
+        this.result = null; // AFN resultante
+        this.tree = new Nodo("E"); // Nodo raíz del árbol sintáctico
     }
 
-    function Ep(resultado) {
-        const token = AL.yylex();
-        const tree = { name: "E'", children: [] };
-        const temp = { val: 0 };
-
-        if (token === TOKEN.SUMA || token === TOKEN.RESTA) {
-            const tResult = T(temp);
-            if (tResult.val) {
-                resultado.val += (token === TOKEN.SUMA ? temp.val : -temp.val);
-                tree.children.push(tResult.tree, { name: token === TOKEN.SUMA ? "+" : "-" });
-                const epResult = Ep(resultado);
-                if (epResult.val) {
-                    tree.children.push(epResult.tree);
-                }
-                return { val: true, tree: tree };
-            }
-            return { val: false, tree: tree };
-        }
-        AL.undoToken();
-        tree.children.push({ name: "ε" });
-        return { val: true, tree: tree };
+    getTree() {
+        return this.tree;
     }
 
-    function T(resultado) {
-        const temp = { val: 0 };
-        const tree = { name: "T", children: [] };
-
-        const fResult = F(temp);
-        if (fResult.val) {
-            resultado.val = temp.val;
-            tree.children.push(fResult.tree);
-            const tpResult = Tp(resultado);
-            if (tpResult.val) {
-                tree.children.push(tpResult.tree);
-            }
-            return { val: true, tree: tree };
-        }
-        return { val: false, tree: tree };
+    getResult() {
+        return this.result;
     }
 
-    function Tp(resultado) {
-        const token = AL.yylex();
-        const tree = { name: "T'", children: [] };
-        const temp = { val: 0 };
-
-        if (token === TOKEN.MULTI || token === TOKEN.DIV) {
-            const fResult = F(temp);
-            if (fResult.val) {
-                resultado.val = token === TOKEN.MULTI ? resultado.val * temp.val : resultado.val / temp.val;
-                tree.children.push(fResult.tree, { name: token === TOKEN.MULTI ? "*" : "/" });
-                const tpResult = Tp(resultado);
-                if (tpResult.val) {
-                    tree.children.push(tpResult.tree);
-                }
-                return { val: true, tree: tree };
-            }
-            return { val: false, tree: tree };
-        }
-        AL.undoToken();
-        tree.children.push({ name: "ε" });
-        return { val: true, tree: tree };
+    getER() {
+        return this.ER;
     }
 
-    function F(resultado) {
-        const token = AL.yylex();
-        const tree = { name: "F", children: [] };
-
-        if (token === TOKEN.PARENL) {
-            const eResult = E(resultado);
-            if (eResult.val && AL.yylex() === TOKEN.PARENR) {
-                tree.children.push({ name: "(" }, eResult.tree, { name: ")" });
-                return { val: true, tree: tree };
-            }
-            return { val: false, tree: tree };
-        } else if (token === TOKEN.NUM) {
-            resultado.val = parseFloat(AL.getLexema());
-            tree.children.push({ name: "num", children: [{ name: `${resultado.val}` }] });
-            return { val: true, tree: tree };
-        }
-        AL.undoToken();
-        return { val: false, tree: tree };
+    setER(sigma) {
+        this.ER = sigma;
+        this.AL.setSigma(sigma);
     }
 
-    function recorrerPostorden(nodo) {
-        let resultado = "";
+    parse() {
+        const f = new AFN();
+        const child = [];
 
-        if (nodo.children) {
-            for (const child of nodo.children) {
-                resultado += recorrerPostorden(child) + " ";
-            }
-        }
-
-        if (!["E", "E'", "T", "T'", "F", "ε", "num", "(", ")"].includes(nodo.name)) {
-            resultado += nodo.name + " ";
-        }
-
-        return resultado.trim();
-    }
-
-    function limpiarArchivo(nombreArchivo) {
-        fs.writeFileSync(nombreArchivo, '', 'utf-8');
-    }
-
-    function parseConPostfijo(input) {
-        AL.setSigma(input);
-        const resultado = { val: 0 };
-        const eResult = E(resultado);
-
-        if (eResult.val && AL.yylex() === TOKEN.FIN) {
-            const postfijo = recorrerPostorden(eResult.tree).trim();
-            return { valid: true, postfijo: postfijo, resultado: resultado.val };
-        }
-        return { valid: false, postfijo: "", resultado: 0 };
-    }
-
-    function runTestsConPostfijo() {
-        const testCases = [
-            "((1+2)*3)",
-            "2+1",
-        ];
-
-        for (const test of testCases) {
-            console.log(`Cadena: "${test}"`);
-            const resultado = parseConPostfijo(test);
-            if (resultado.valid) {
-                console.log(`Cadena: Válida`);
-                console.log(`Resultado: ${resultado.resultado}`);
-                console.log(`Posfijo: ${resultado.postfijo}\n`);  // Muestra el resultado en notación postfija
+        if (this.E(f, child)) {
+            this.tree.children = child;
+            const token = this.AL.yylex();
+            if (token === TOKEN.END) {
+                this.result = f;
+                return true;
             } else {
-                console.log("Cadena: Inválida\n");
+                // Si hay tokens adicionales, error
+                return false;
             }
+        }
+        return false;
+    }
+
+    E(f, father) {
+        const childT = [];
+        if (this.T(f, childT)) {
+            father.push(new Nodo("T", childT));
+            const childEp = [];
+            if (this.Ep(f, childEp)) {
+                father.push(new Nodo("E'", childEp));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    Ep(f, father) {
+        const token = this.AL.yylex();
+        if (token === TOKEN.OR) {
+            father.push(new Nodo("|"));
+            const f1 = new AFN();
+            const childT = [];
+            if (this.T(f1, childT)) {
+                father.push(new Nodo("T", childT));
+                const childEp = [];
+                if (this.Ep(f1, childEp)) {
+                    father.push(new Nodo("E'", childEp));
+                    f.Unir(f1); // Unir los AFNs
+                    return true;
+                }
+            }
+            return false;
+        }
+        this.AL.undoToken();
+        return true;
+    }
+
+    T(f, father) {
+        const childC = [];
+        if (this.C(f, childC)) {
+            father.push(new Nodo("C", childC));
+            const childTp = [];
+            if (this.Tp(f, childTp)) {
+                father.push(new Nodo("T'", childTp));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    Tp(f, father) {
+        const token = this.AL.yylex();
+        if (token === TOKEN.CONCAT) {
+            father.push(new Nodo("&"));
+            const f1 = new AFN();
+            const childC = [];
+            if (this.C(f1, childC)) {
+                father.push(new Nodo("C", childC));
+                const childTp = [];
+                if (this.Tp(f1, childTp)) {
+                    father.push(new Nodo("T'", childTp));
+                    f.Concatenar(f1); // Concatenar los AFNs
+                    return true;
+                }
+            }
+            return false;
+        }
+        this.AL.undoToken();
+        return true;
+    }
+
+    C(f, father) {
+        const childF = [];
+        if (this.F(f, childF)) {
+            father.push(new Nodo("F", childF));
+            const childCp = [];
+            if (this.Cp(f, childCp)) {
+                father.push(new Nodo("C'", childCp));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    Cp(f, father) {
+        const token = this.AL.yylex();
+        switch (token) {
+            case TOKEN.CERRPOS:
+                father.push(new Nodo("+"));
+                if (this.Cp(f, [])) {
+                    f.Cerradura_Positiva(); // Aplicar cerradura positiva
+                    return true;
+                }
+                return false;
+            case TOKEN.CERRKLEEN:
+                father.push(new Nodo("*"));
+                if (this.Cp(f, [])) {
+                    f.Cerradura_Kleene(); // Aplicar cerradura de Kleene
+                    return true;
+                }
+                return false;
+            case TOKEN.CERROPC:
+                father.push(new Nodo("?"));
+                if (this.Cp(f, [])) {
+                    f.Opcional(); // Aplicar operador opcional
+                    return true;
+                }
+                return false;
+            default:
+                this.AL.undoToken();
+                return true;
         }
     }
 
-    limpiarArchivo('/Compiladores MVC/afdCalculadora.txt');
-    runTestsConPostfijo();
-
-     function handleCalculadora(modal) {
-        const fields = modal.getFields();
-        const automatonId = fields['automatonId'].trim();
-        const regexInput = fields['regexInput'].trim();
-
-        try {
-            const matrizTransicionAFD =  cargarAutomataDesdeArchivo('/Compiladores MVC/ER_AFN.txt');
-            AL.matrizTransicionAFD = matrizTransicionAFD;
-
-            const resultado = parseConPostfijo(regexInput);
-
-            if (resultado.valid) {
-                console.log(`Expresión válida. Resultado: ${resultado.resultado}`);
-            } else {
-                console.log("Expresión inválida.");
-            }
-        } catch (error) {
-            console.error("Error en el análisis:", error);
+    F(f, father) {
+        const token = this.AL.yylex();
+        switch (token) {
+            case TOKEN.LPAREN:
+                father.push(new Nodo("("));
+                const childE = [];
+                if (this.E(f, childE)) {
+                    father.push(new Nodo("E", childE));
+                    const token1 = this.AL.yylex();
+                    if (token1 === TOKEN.RPAREN) {
+                        father.push(new Nodo(")"));
+                        return true;
+                    }
+                }
+                return false;
+            case TOKEN.LCORCH:
+                father.push(new Nodo("["));
+                const token1_corch = this.AL.yylex();
+                if (token1_corch === TOKEN.SIMB || token1_corch === TOKEN.SPACE) {
+                    const lexema = this.AL.getLexema();
+                    const simb = lexema[0] === '\\' ? lexema[1] : lexema[0];
+                    father.push(new Nodo(simb));
+                    const token2 = this.AL.yylex();
+                    if (token2 === TOKEN.DASH) {
+                        father.push(new Nodo("-"));
+                        const token3 = this.AL.yylex();
+                        if (token3 === TOKEN.SIMB || token3 === TOKEN.SPACE) {
+                            const lexema2 = this.AL.getLexema();
+                            const simb2 = lexema2[0] === '\\' ? lexema2[1] : lexema2[0];
+                            father.push(new Nodo(simb2));
+                            const token4 = this.AL.yylex();
+                            if (token4 === TOKEN.RCORCH) {
+                                father.push(new Nodo("]"));
+                                const afnBasico = AFN.Crear_Basico_AFN(simb, simb2);
+                                // Asignar el afnBasico al parámetro f
+                                Object.assign(f, afnBasico);
+                                return true;
+                            }
+                        }
+                    }
+                }
+                return false;
+            case TOKEN.SIMB:
+            case TOKEN.SPACE:
+                const lexemaSimbolo = this.AL.getLexema();
+                const simbolo = lexemaSimbolo[0] === '\\' ? lexemaSimbolo[1] : lexemaSimbolo[0];
+                father.push(new Nodo(simbolo));
+                const afnBasico = AFN.Crear_Basico_AFN(simbolo);
+                // Asignar el afnBasico al parámetro f
+                Object.assign(f, afnBasico);
+                return true;
+            default:
+                return false;
         }
     }
-};
+}

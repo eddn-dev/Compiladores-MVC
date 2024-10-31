@@ -12,15 +12,16 @@
                             <input type="text" id="text-operation" name="text-operation">
                             <small id="text-operation-alert" class="alert-message"></small> 
                         </div>
+                        <!-- Contenedor para mostrar el resultado -->
+                        <div class="modal_result">
+                            <p id="operation-result">Resultado: <span id="result-output"></span></p>
+                        </div>
                         <div class="modal_buttons">
                             <button type="button" class="modal_button calculate">Calcular</button>
                         </div>
                     </form>
                 </div>
-                <!-- Contenedor para mostrar el resultado -->
-                <div class="modal_result">
-                    <p id="operation-result">Resultado: <span id="result-output"></span></p>
-                </div>
+                
             </div>
         </div>
     </div>
