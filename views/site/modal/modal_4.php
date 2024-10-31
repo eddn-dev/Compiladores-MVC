@@ -17,6 +17,10 @@
                         </div>
                     </form>
                 </div>
+                <!-- Contenedor para mostrar el resultado -->
+                <div class="modal_result">
+                    <p id="operation-result">Resultado: <span id="result-output"></span></p>
+                </div>
             </div>
         </div>
     </div>

@@ -1,60 +1,56 @@
-document.addEventListener('modalLoaded', function(event) {
-    const modal = event.detail.modal;
-    handleModal(modal);
-});
-
-function handleModal(modal) {
-    const modalId = modal.getAttribute('id');
-
-    switch (modalId) {
-        case 'modal4':
-            handleCalculadoraModal(modal);
-            break;
-        // Otros casos de modales aquí...
-    }
-}
-
+// Función para manejar el modal de calculadora
 function handleCalculadoraModal(modal) {
     const form = modal.querySelector('form');
     const calculateButton = form.querySelector('.modal_button.calculate');
     const operationInput = form.querySelector('#text-operation');
     const alertMessage = form.querySelector('#text-operation-alert');
+    const resultOutput = modal.querySelector('#result-output'); 
 
-    // Validación y lógica de cálculo
-    calculateButton.addEventListener('click', async (event) => {
+    // Configurar evento de cálculo
+    calculateButton.addEventListener('click', (event) => {
         event.preventDefault();
 
-        // Validación del campo de operación
-        if (!operationInput.value.trim()) {
-            alertMessage.textContent = 'La operación es obligatoria.';
-            alertMessage.classList.add('error');
-            return;
-        }
-        alertMessage.textContent = ''; // Limpia el mensaje de alerta
+        // Validar operación antes de proceder
+        if (!validarOperacion(operationInput.value, alertMessage)) return;
 
-        try {
-            // Cargar el autómata desde archivo
-            const matrizTransicionAFD = await cargarAutomataDesdeArchivo('build/utils/ER_AFN.txt');
+        // Ejecutar el cálculo
+        calcularResultado(operationInput.value, resultOutput, modal);
+    });
+}
 
-            // Instanciar ExpresionRegular si no existe
+// Función para validar la operación de entrada
+function validarOperacion(valorOperacion, alertMessage) {
+    if (!valorOperacion.trim()) {
+        alertMessage.textContent = 'La operación es obligatoria.';
+        alertMessage.classList.add('error');
+        return false;
+    }
+    alertMessage.textContent = ''; // Limpia el mensaje de alerta
+    return true;
+}
+
+// Función para realizar el cálculo y mostrar el resultado
+function calcularResultado(operacion, resultOutput, modal) {
+    cargarAutomataDesdeArchivo('build/utils/ER_AFN.txt')
+        .then(matrizTransicionAFD => {
             if (!window.expReg) {
                 window.expReg = new ExpresionRegular('', matrizTransicionAFD);
             } else {
                 window.expReg.AL.matrizTransicionAFD = matrizTransicionAFD;
             }
 
-            // Establecer la operación en el autómata
-            window.expReg.setER(operationInput.value);
+            window.expReg.setER(operacion);
 
-            // Ejecutar el análisis sintáctico
             if (window.expReg.parse()) {
+                resultOutput.textContent = window.expReg.getResult();
                 mostrarNotificacion('Operación calculada exitosamente.', 'success');
-                closeModal(modal); // Cerrar modal si el cálculo es exitoso
             } else {
                 mostrarNotificacion('Error en la operación. Verifique la sintaxis.', 'error');
+                resultOutput.textContent = 'Error en la operación';
             }
-        } catch (error) {
+        })
+        .catch(error => {
             mostrarNotificacion('Error al calcular la operación: ' + error.message, 'error');
-        }
-    });
+            resultOutput.textContent = 'Error al cargar el autómata';
+        });
 }

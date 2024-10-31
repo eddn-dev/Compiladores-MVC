@@ -42,6 +42,9 @@ function handleModal(modal) {
         case 'modal14':
             handleAplicarERaAFN(modal);
             break;
+        case 'modal15':
+            handleCalculadora(modal);    
+            break;
     }
 }
 
