@@ -56,3 +56,7 @@
 </div>
 <!-- Contenedor de notificaciones -->
 <div id="notification-container"></div>
+
+<footer>
+<span class="names">Alonso Sánchez Eduardo .: Compiladores 5CM1 :. Vitales Herrera Hatziry </span>
+</footer>
