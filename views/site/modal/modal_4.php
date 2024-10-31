@@ -1,13 +1,8 @@
 <div class="blur">
-    <!-- Contenido del modal -->
     <div class="modal bg30" id="modal4">
         <button class="modal_close">&times;</button>
-        <div class="modal_title">
-            Calculadora
-        </div>
-        <div class="modal_canvas_container">
-            <!-- El canvas se moverá a este contenedor -->
-        </div>
+        <div class="modal_title">Calculadora</div>
+        <div class="modal_canvas_container"></div>
         <div class="modal_content">
             <div class="modal_create_layout">
                 <div class="modal_automaton_form">
@@ -25,4 +20,4 @@
             </div>
         </div>
     </div>
-</div>  
+</div>
