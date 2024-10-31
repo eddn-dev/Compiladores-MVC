@@ -258,6 +258,15 @@
             background-color: darken(#f44336, 10%);
           }
         }
+
+        &.calculate {
+          background-color: #8bf436;
+          color: rgb(0, 0, 0);
+
+          &:hover {
+            background-color: darken(#8bf436, 20%);
+          }
+        }
       }
     }
 
