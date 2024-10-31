@@ -346,28 +346,34 @@ class AFN {
                 data: {
                     id: `estado_${estado.Id_Edo}`,
                     label: `Estado ${estado.Id_Edo}`,
-                    // Si el estado es de aceptación, se agrega una clase para resaltarlo
                     clase: this.Edos_Acept.has(estado) ? 'estadoAceptacion' : 'estadoNormal'
                 }
             });
         });
-
+    
         // Crear aristas para cada transición
         this.Estados.forEach(estado => {
             estado.Transiciones.forEach(transicion => {
+                let label;
+                if (transicion.Simbolo_Inferior === transicion.Simbolo_Superior) {
+                    label = `${transicion.Simbolo_Inferior}`;
+                } else {
+                    label = `${transicion.Simbolo_Inferior}-${transicion.Simbolo_Superior}`;
+                }
+    
                 elementosCytoscape.push({
                     data: {
-                        id: `transicion_${estado.Id_Edo}_${transicion.Edo_Destino.Id_Edo}`,
+                        id: `transicion_${estado.Id_Edo}_${transicion.Edo_Destino.Id_Edo}_${label}`,
                         source: `estado_${estado.Id_Edo}`,
                         target: `estado_${transicion.Edo_Destino.Id_Edo}`,
-                        label: `${transicion.Simbolo_Inferior} - ${transicion.Simbolo_Superior}`
+                        label: label
                     }
                 });
             });
         });
-
+    
         return elementosCytoscape;
-    }
+    }    
 }
 
 async function iniciarDescarga(contenido, nombreArchivo) {
