@@ -122,9 +122,9 @@ function handleProbarAFD(modal) {
         const tableHeader = document.createElement('thead');
         const headerRow = document.createElement('tr');
         const lexemaHeader = document.createElement('th');
-        lexemaHeader.textContent = 'Lexema';
+        lexemaHeader.textContent = ' Lexema ';
         const tokenHeader = document.createElement('th');
-        tokenHeader.textContent = 'Token';
+        tokenHeader.textContent = ' Token ';
         headerRow.appendChild(lexemaHeader);
         headerRow.appendChild(tokenHeader);
         tableHeader.appendChild(headerRow);
