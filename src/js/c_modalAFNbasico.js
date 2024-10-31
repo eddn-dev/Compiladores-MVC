@@ -64,6 +64,7 @@ function handleCrearAFNBasico(modal) {
               case 'epsilon':
                   nuevoAFN.Cerradura_Positiva();
                   break;
+              // 'default' no hace nada
           }
 
           AFNS.push(nuevoAFN);
@@ -75,116 +76,51 @@ function handleCrearAFNBasico(modal) {
       errorMessage: 'Por favor, corrige los errores antes de continuar.'
   };
 
-  function actualizarCytoscape(afn) {
-      const previewContainer = modal.querySelector('.automaton_preview');
-
-      if (!afn) {
-          limpiarCytoscape();
-          return;
-      }
-
-      const elementos = afn.convertirACytoscape();
-
-      const cy = cytoscape({
-          container: previewContainer,
-          elements: elementos,
-          style: [
-              {
-                  selector: 'node',
-                  style: {
-                      'label': 'data(label)',
-                      'text-valign': 'center',
-                      'color': '#fff',
-                      'background-color': '#666',
-                      'shape': 'ellipse',
-                      'width': '40px',
-                      'height': '40px',
-                      'font-size': '12px'
-                  }
-              },
-              {
-                  selector: 'edge',
-                  style: {
-                      'label': 'data(label)',
-                      'curve-style': 'bezier',
-                      'control-point-step-size': 40,
-                      'target-arrow-shape': 'triangle',
-                      'arrow-scale': 1.2,
-                      'width': 2,
-                      'line-color': '#9dbaea',
-                      'target-arrow-color': '#9dbaea',
-                      'font-size': '10px',
-                      'text-background-color': '#fff',
-                      'text-background-opacity': 1,
-                      'text-background-padding': '2px',
-                      'edge-text-rotation': 'autorotate'
-                  }
-              },
-              {
-                  selector: 'node.estadoAceptacion',
-                  style: {
-                      'background-color': '#f39c12',
-                      'shape': 'double-octagon'
-                  }
-              },
-              {
-                  selector: 'node.estadoInicial',
-                  style: {
-                      'background-color': '#27ae60',
-                      'shape': 'star'
-                  }
-              }
-          ],
-          layout: {
-              name: 'breadthfirst',
-              directed: true,
-              padding: 10,
-              roots: `#estado_${afn.Edo_Inicial.Id_Edo}`
-          }
-      });
-  }
-
-  function limpiarCytoscape() {
-      const previewContainer = modal.querySelector('.automaton_preview');
-      previewContainer.innerHTML = ''; // Limpiar el contenedor
-  }
-
   handleAFNModal(modal, config);
-  actualizarCytoscape(null);
 
+  // Inicializar la previsualización
+  const previewContainerSelector = '.automaton_preview';
   const inputFields = modal.querySelectorAll('input[type="text"], input[name="cerradura"]');
-  inputFields.forEach(input => {
-      input.addEventListener('input', () => {
-          const fields = obtenerValoresDeCampos(modal);
-          if (fields['automatonId'].value && fields['startSymbol'].value && fields['startSymbol'].isValid && fields['endSymbol'].isValid) {
-              try {
-                  // Resetear contadores antes de crear el AFN de previsualización
-                  Estado.Cant_Edos = 0;
-                  AFN.Cant_AFN = 0;
 
-                  let previewAFN = AFN.Crear_Basico_AFN(fields['startSymbol'].value, fields['endSymbol'].value || null);
-                  previewAFN.ID_AFN = fields['automatonId'].value.trim();
+  function updatePreview() {
+      const fields = obtenerValoresDeCampos(modal);
+      if (fields['automatonId'].value && fields['startSymbol'].value && fields['startSymbol'].isValid && fields['endSymbol'].isValid) {
+          try {
+              // Resetear contadores antes de crear el AFN de previsualización
+              Estado.Cant_Edos = 0;
+              AFN.Cant_AFN = 0;
 
-                  const cerradura = modal.querySelector('input[name="cerradura"]:checked').value;
-                  switch (cerradura) {
-                      case 'kleene':
-                          previewAFN.Cerradura_Kleene();
-                          break;
-                      case 'epsilon':
-                          previewAFN.Cerradura_Positiva();
-                          break;
-                  }
+              let previewAFN = AFN.Crear_Basico_AFN(fields['startSymbol'].value, fields['endSymbol'].value || null);
+              previewAFN.ID_AFN = fields['automatonId'].value.trim();
 
-                  actualizarCytoscape(previewAFN);
-              } catch (error) {
-                  console.error("Error al crear el AFN:", error);
-                  limpiarCytoscape();
+              const cerradura = modal.querySelector('input[name="cerradura"]:checked').value;
+              switch (cerradura) {
+                  case 'kleene':
+                      previewAFN.Cerradura_Kleene();
+                      break;
+                  case 'epsilon':
+                      previewAFN.Cerradura_Positiva();
+                      break;
+                  // 'default' no hace nada
               }
-          } else {
-              limpiarCytoscape();
+
+              updateAFNPreview(previewContainerSelector, previewAFN);
+          } catch (error) {
+              console.error("Error al crear el AFN:", error);
+              updateAFNPreview(previewContainerSelector, null);
           }
-      });
+      } else {
+          updateAFNPreview(previewContainerSelector, null);
+      }
+  }
+
+  // Vincular eventos para actualizar la previsualización
+  inputFields.forEach(input => {
+      input.addEventListener('input', updatePreview);
   });
+
+  // Actualizar la previsualización inicial
+  updatePreview();
 }
 
 function obtenerValoresDeCampos(modal) {

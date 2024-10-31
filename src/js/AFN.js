@@ -339,18 +339,29 @@ class AFN {
     //Cytoscape
     convertirACytoscape() {
         const elementosCytoscape = [];
-        
+
         // Crear nodos para cada estado en el autómata
         this.Estados.forEach(estado => {
+            const clases = [];
+            if (estado === this.Edo_Inicial) {
+                clases.push('estadoInicial');
+            }
+            if (this.Edos_Acept.has(estado)) {
+                clases.push('estadoAceptacion');
+            }
+            if (clases.length === 0) {
+                clases.push('estadoNormal');
+            }
+
             elementosCytoscape.push({
                 data: {
                     id: `estado_${estado.Id_Edo}`,
-                    label: `Estado ${estado.Id_Edo}`,
-                    clase: this.Edos_Acept.has(estado) ? 'estadoAceptacion' : 'estadoNormal'
+                    label: `${estado.Id_Edo}`, // Solo el número del estado
+                    classes: clases.join(' ')
                 }
             });
         });
-    
+
         // Crear aristas para cada transición
         this.Estados.forEach(estado => {
             estado.Transiciones.forEach(transicion => {
@@ -360,7 +371,7 @@ class AFN {
                 } else {
                     label = `${transicion.Simbolo_Inferior}-${transicion.Simbolo_Superior}`;
                 }
-    
+
                 elementosCytoscape.push({
                     data: {
                         id: `transicion_${estado.Id_Edo}_${transicion.Edo_Destino.Id_Edo}_${label}`,
@@ -371,9 +382,10 @@ class AFN {
                 });
             });
         });
-    
+
         return elementosCytoscape;
-    }    
+    }
+    
 }
 
 async function iniciarDescarga(contenido, nombreArchivo) {

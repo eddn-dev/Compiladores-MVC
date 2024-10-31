@@ -8,8 +8,9 @@
         <div class="modal_content">
             <div class="modal_create_layout">
                 <div class="modal_automaton_previews">
-                    <div class="automaton_preview" id="1"></div>
-                    <div class="automaton_preview" id="2"></div>
+                    <div class="automaton_preview" id="preview-afn1"></div>
+                    <div class="automaton_preview" id="preview-afn2"></div>
+                    <div class="automaton_preview" id="preview-result"></div>
                 </div>
                 <div class="modal_automaton_form">
                     <form>

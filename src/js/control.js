@@ -217,3 +217,85 @@ function mostrarNotificacion(mensaje, tipo = 'success') {
       });
     }, 2500);
   }
+
+
+  function createCytoscapeInstance(container, elements) {
+    return cytoscape({
+        container: container,
+        elements: elements,
+        style: [
+            {
+                selector: 'node',
+                style: {
+                    'label': 'data(label)',
+                    'text-valign': 'center',
+                    'color': '#fff',
+                    'background-color': '#666',
+                    'shape': 'ellipse',
+                    'width': '40px',
+                    'height': '40px',
+                    'font-size': '12px'
+                }
+            },
+            {
+                selector: 'edge',
+                style: {
+                    'label': 'data(label)',
+                    'curve-style': 'bezier',
+                    'control-point-step-size': 40,
+                    'target-arrow-shape': 'triangle',
+                    'arrow-scale': 1.2,
+                    'width': 2,
+                    'line-color': '#9dbaea',
+                    'target-arrow-color': '#9dbaea',
+                    'font-size': '10px',
+                    'text-background-color': '#fff',
+                    'text-background-opacity': 1,
+                    'text-background-padding': '2px',
+                    'edge-text-rotation': 'autorotate'
+                }
+            },
+            {
+                selector: 'node.estadoAceptacion',
+                style: {
+                    'background-color': '#f39c12',
+                    'shape': 'pentagon'
+                }
+            },
+            {
+                selector: 'node.estadoInicial',
+                style: {
+                    'background-color': '#27ae60',
+                    'shape': 'star'
+                }
+            }
+        ],
+        layout: {
+            name: 'breadthfirst',
+            directed: true,
+            padding: 10
+        }
+    });
+}
+
+function updateAFNPreview(containerSelector, afn) {
+    const container = document.querySelector(containerSelector);
+
+    if (!afn) {
+        container.innerHTML = '';
+        return;
+    }
+
+    const elementos = afn.convertirACytoscape();
+    createCytoscapeInstance(container, elementos);
+}
+
+function bindAFNSelectionChange(selectSelector, previewContainerSelector) {
+    const selectElement = document.querySelector(selectSelector);
+
+    selectElement.addEventListener('change', () => {
+        const afnId = selectElement.value;
+        const afn = AFNS.find(afn => afn.ID_AFN === afnId);
+        updateAFNPreview(previewContainerSelector, afn);
+    });
+}
