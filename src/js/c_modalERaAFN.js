@@ -52,7 +52,7 @@ function handleAplicarERaAFN(modal) {
                         return 'El ID es obligatorio.';
                     } else if (!/^[0-9]+$/.test(value)) {
                         return 'El ID solo puede contener números.';
-                    } else if (parseInt(value) <= 0) {
+                    } else if (parseInt(value) < 0) {
                         return 'El ID debe ser un número positivo.';
                     } else if (AFNS.some(afn => afn.ID_AFN === value)) {
                         return 'El ID ya existe. Elige otro.';
@@ -79,7 +79,7 @@ function handleAplicarERaAFN(modal) {
 
             try {
                 // Cargar el autómata desde el archivo
-                const matrizTransicionAFD = await cargarAutomataDesdeArchivo('/build/utils/ER_AFN.txt');
+                const matrizTransicionAFD = await cargarAutomataDesdeArchivo('build/utils/ER_AFN.txt');
 
                 // Crear una instancia del analizador sintáctico con la matriz cargada
                 if (!window.expReg) {

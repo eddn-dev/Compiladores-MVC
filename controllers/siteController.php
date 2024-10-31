@@ -23,7 +23,8 @@ class siteController {
             '<script src="build/js/c_modalERaAFN.js"></script>',
             '<script src="build/js/scene.js" type="module"></script>',
             '<script src="build/js/buttons.js"></script>',
-            '<script src="build/js/AnalizLex.js"></script>'
+            '<script src="build/js/AnalizLex.js"></script>',
+            '<script src="build/js/AnalizSin.js"></script>'
         ];
         $router->render('site/index/index',[],true, $scripts);
     }
