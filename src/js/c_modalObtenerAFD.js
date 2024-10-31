@@ -38,6 +38,7 @@ function handleObtenerAFD(modal) {
             checkboxUnir.type = 'checkbox';
             checkboxUnir.name = 'unir_afn';
             checkboxUnir.value = afn.ID_AFN;
+            checkboxUnir.style.border = '3px solid black'; 
             cellUnir.appendChild(checkboxUnir);
             row.appendChild(cellUnir);
 
