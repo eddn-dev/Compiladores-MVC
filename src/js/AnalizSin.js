@@ -1,6 +1,3 @@
-// Hacer el descenso recursivo para la calculadora
-
-// Hacer el descenso recursivo para ER a AFN
 // Definición de tokens
 const TOKEN = {
     OR: 10,
@@ -29,9 +26,9 @@ class Nodo {
 // Clase ExpresionRegular
 class ExpresionRegular {
     constructor(sigma = "", matrizTransicionAFD = null) {
+        this.ER = sigma;
         this.AL = new AnalizadorLexico(sigma, matrizTransicionAFD);
         this.result = null; // AFN resultante
-        this.ER = sigma;
         this.tree = new Nodo("E"); // Nodo raíz del árbol sintáctico
     }
 
@@ -199,7 +196,7 @@ class ExpresionRegular {
             case TOKEN.LCORCH:
                 father.push(new Nodo("["));
                 const token1_corch = this.AL.yylex();
-                if (token1_corch === TOKEN.SIMB) {
+                if (token1_corch === TOKEN.SIMB || token1_corch === TOKEN.SPACE) {
                     const lexema = this.AL.getLexema();
                     const simb = lexema[0] === '\\' ? lexema[1] : lexema[0];
                     father.push(new Nodo(simb));
@@ -207,14 +204,16 @@ class ExpresionRegular {
                     if (token2 === TOKEN.DASH) {
                         father.push(new Nodo("-"));
                         const token3 = this.AL.yylex();
-                        if (token3 === TOKEN.SIMB) {
+                        if (token3 === TOKEN.SIMB || token3 === TOKEN.SPACE) {
                             const lexema2 = this.AL.getLexema();
                             const simb2 = lexema2[0] === '\\' ? lexema2[1] : lexema2[0];
                             father.push(new Nodo(simb2));
                             const token4 = this.AL.yylex();
                             if (token4 === TOKEN.RCORCH) {
                                 father.push(new Nodo("]"));
-                                f = AFN.Crear_Basico_AFN(simb, simb2);
+                                const afnBasico = AFN.Crear_Basico_AFN(simb, simb2);
+                                // Asignar el afnBasico al parámetro f
+                                Object.assign(f, afnBasico);
                                 return true;
                             }
                         }
@@ -222,10 +221,13 @@ class ExpresionRegular {
                 }
                 return false;
             case TOKEN.SIMB:
+            case TOKEN.SPACE:
                 const lexemaSimbolo = this.AL.getLexema();
                 const simbolo = lexemaSimbolo[0] === '\\' ? lexemaSimbolo[1] : lexemaSimbolo[0];
                 father.push(new Nodo(simbolo));
-                f = AFN.Crear_Basico_AFN(simbolo);
+                const afnBasico = AFN.Crear_Basico_AFN(simbolo);
+                // Asignar el afnBasico al parámetro f
+                Object.assign(f, afnBasico);
                 return true;
             default:
                 return false;
