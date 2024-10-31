@@ -127,15 +127,17 @@ function handleAFNModal(modal, config) {
     }
 }
 
-// Función para verificar si un carácter es válido
 function esCaracterValido(char) {
     // Verificar que sea un solo carácter
     if (char.length !== 1) return false;
 
-    // Verificar que sea un carácter imprimible (evitar caracteres de control)
+    // Obtener el código ASCII, incluyendo el rango extendido
     const code = char.charCodeAt(0);
-    return code >= 32 && code <= 126; // Rango de caracteres imprimibles en ASCII
+    // Verificar que sea un carácter imprimible
+    return code >= 32 && code <= 254;
 }
+
+
 
 // Función para cerrar el modal actual
 function closeModal(modal) {
