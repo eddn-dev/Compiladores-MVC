@@ -3,9 +3,9 @@ function handleConcatenarAFN(modal) {
     const config = {
         fields: [
             {
-                name: 'afnId1',
-                selector: '#automaton-id-1',
-                alertSelector: '#automaton-id-1-alert',
+                name: 'afnId',
+                selector: '#automaton-id',
+                alertSelector: '#automaton-id-alert',
                 validate: (value) => {
                     if (!value) {
                         return 'Selecciona un AFN.';
@@ -18,10 +18,8 @@ function handleConcatenarAFN(modal) {
                 selector: '#automaton-id-2',
                 alertSelector: '#automaton-id-2-alert',
                 validate: (value, fields) => {
-                    const afnId1 = fields['afnId1'].value.trim();
-                    if (!value) {
-                        return 'Selecciona un AFN.';
-                    } else if (value === afnId1) {
+                    const afnId1 = fields['afnId'].value.trim();
+                    if (value && value === afnId1) {
                         return 'Debes seleccionar un AFN diferente.';
                     }
                     return null;
@@ -31,40 +29,108 @@ function handleConcatenarAFN(modal) {
         validationEvent: 'change',
         populateAFNSelects: true,
         onSubmit: (fields, form) => {
-            const afnId1 = fields['afnId1'].value;
+            const afnId = fields['afnId'].value;
             const afnId2 = fields['afnId2'].value;
 
-            // Obtener los AFNs seleccionados
-            const afn1Index = AFNS.findIndex(afn => afn.ID_AFN === afnId1);
-            const afn2Index = AFNS.findIndex(afn => afn.ID_AFN === afnId2);
+            // Obtener el AFN seleccionado
+            const afnIndex = AFNS.findIndex(afn => afn.ID_AFN === afnId);
+            const afn = AFNS[afnIndex];
 
-            const afn1 = AFNS[afn1Index];
-            const afn2 = AFNS[afn2Index];
+            if (afnId2 && afnId !== afnId2) {
+                // Si se seleccionó un segundo AFN, realizar la concatenación
+                const afn2Index = AFNS.findIndex(afn => afn.ID_AFN === afnId2);
+                const afn2 = AFNS[afn2Index];
 
-            // Concatenar los AFNs
-            afn1.Concatenar(afn2);
+                // Concatenar los AFNs
+                afn.Concatenar(afn2);
+
+                // Eliminar el AFN 2 de la lista, ya que ha sido concatenado al AFN 1
+                AFNS.splice(afn2Index, 1);
+            }
 
             // Aplicar cerradura si es necesario
             const cerradura = form.querySelector('input[name="cerradura"]:checked').value;
             switch(cerradura) {
                 case 'kleene':
-                    afn1.Cerradura_Kleene();
+                    afn.Cerradura_Kleene();
                     break;
                 case 'epsilon':
-                    afn1.Cerradura_Positiva();
+                    afn.Cerradura_Positiva();
                     break;
                 // 'default' no hace nada
             }
 
-            // Eliminar el AFN 2 de la lista, ya que ha sido concatenado al AFN 1
-            AFNS.splice(afn2Index, 1);
-
             // Actualizar los selects en otros modales
             actualizarSelectsDeAFN();
+
+            mostrarNotificacion('AFNs concatenados exitosamente.', 'success');
+            closeModal(modal);
         },
         successMessage: 'AFNs concatenados exitosamente.',
         errorMessage: 'Por favor, corrige los errores antes de continuar.'
     };
 
     handleAFNModal(modal, config);
+
+    // Inicializar la previsualización del AFN seleccionado
+    bindAFNSelectionChange('#automaton-id', '#preview-afn');
+
+    // Actualizar la previsualización del resultado cuando cambien las selecciones o la cerradura
+    const select1 = modal.querySelector('#automaton-id');
+    const select2 = modal.querySelector('#automaton-id-2');
+    const cerraduraRadios = modal.querySelectorAll('input[name="cerradura"]');
+
+    function updateResultPreview() {
+        const afnId = select1.value;
+        const afnId2 = select2.value;
+
+        if (afnId) {
+            const afn = AFNS.find(afn => afn.ID_AFN === afnId);
+            let previewAFN;
+
+            if (afnId2 && afnId !== afnId2) {
+                const afn2 = AFNS.find(afn => afn.ID_AFN === afnId2);
+                const cloneAFN1 = afn.clone();
+                const cloneAFN2 = afn2.clone();
+
+                // Concatenar los AFNs
+                cloneAFN1.Concatenar(cloneAFN2);
+                previewAFN = cloneAFN1;
+            } else {
+                previewAFN = afn.clone();
+            }
+
+            // Aplicar la cerradura seleccionada
+            const cerradura = modal.querySelector('input[name="cerradura"]:checked').value;
+            switch (cerradura) {
+                case 'kleene':
+                    previewAFN.Cerradura_Kleene();
+                    break;
+                case 'epsilon':
+                    previewAFN.Cerradura_Positiva();
+                    break;
+                // 'default' no hace nada
+            }
+
+            // Actualizar la previsualización del resultado
+            updateAFNPreview('#preview-result', previewAFN);
+        } else {
+            // Limpiar la previsualización del resultado
+            updateAFNPreview('#preview-result', null);
+        }
+    }
+
+    // Vincular eventos para actualizar la previsualización del resultado
+    select1.addEventListener('change', () => {
+        updateAFNPreview('#preview-afn', AFNS.find(afn => afn.ID_AFN === select1.value));
+        updateResultPreview();
+    });
+    select2.addEventListener('change', updateResultPreview);
+    cerraduraRadios.forEach(radio => {
+        radio.addEventListener('change', updateResultPreview);
+    });
+
+    // Actualizar las previsualizaciones iniciales
+    updateAFNPreview('#preview-afn', AFNS.find(afn => afn.ID_AFN === select1.value));
+    updateResultPreview();
 }

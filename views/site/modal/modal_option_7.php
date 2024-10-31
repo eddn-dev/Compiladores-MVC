@@ -8,7 +8,7 @@
         <div class="modal_content">
             <div class="modal_create_layout">
                 <div class="modal_automaton_previews">
-                    <div class="automaton_preview" id="1"></div>
+                    <div class="automaton_preview" id="preview-afn"></div>
                 </div>
                 <div class="modal_automaton_form">
                     <form>
@@ -20,6 +20,7 @@
                         <div class="form-group">
                             <label for="regex-input">Ingrese la expresión regular para generar un autómata:</label>
                             <input type="text" id="regex-input" name="regex-input" placeholder="Escribe la expresión regular aquí">
+                            <small id="regex-input-alert" class="alert-message"></small>
                         </div>
                         <div class="modal_buttons">
                             <button type="button" class="modal_button cancel">Cancelar</button>

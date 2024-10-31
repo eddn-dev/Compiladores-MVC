@@ -299,3 +299,45 @@ function bindAFNSelectionChange(selectSelector, previewContainerSelector) {
         updateAFNPreview(previewContainerSelector, afn);
     });
 }
+
+async function cargarAutomataDesdeArchivo(rutaArchivo) {
+    try {
+        const response = await fetch(rutaArchivo);
+        if (!response.ok) {
+            throw new Error(`Error al cargar el archivo: ${response.statusText}`);
+        }
+        const contenido = await response.text();
+
+        // Parsear el contenido del archivo para obtener la matriz de transición
+        const matrizTransicionAFD = parseAFDFile(contenido);
+        return matrizTransicionAFD;
+    } catch (error) {
+        console.error('Error al cargar el autómata:', error);
+        throw error;
+    }
+}
+
+function parseAFDFile(contenido) {
+    const lines = contenido.split('\n').filter(line => line.trim() !== '');
+    const matrizTransicionAFD = [];
+
+    for (let i = 0; i < lines.length; i++) {
+        const valoresFila = lines[i].split(',');
+
+        // Ajusta este número según el formato de tu archivo
+        if (valoresFila.length !== 258) {
+            throw new Error(`La línea ${i + 1} no tiene 258 columnas.`);
+        }
+
+        const fila = valoresFila.map(valor => parseInt(valor.trim()));
+
+        // Verificar que los valores sean enteros válidos
+        if (fila.some(valor => isNaN(valor))) {
+            throw new Error(`Valores inválidos en la línea ${i + 1}.`);
+        }
+
+        matrizTransicionAFD.push(fila);
+    }
+
+    return matrizTransicionAFD;
+}
