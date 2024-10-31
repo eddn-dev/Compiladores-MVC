@@ -320,6 +320,22 @@
       border: 5px outset black;
     }
 
+    .table_modal_2 th {
+      text-align: center;
+      color: rgb(41, 6, 41);
+    }
+    .table_modal_2 td {
+      text-align: center;
+    }
+
+    .nohay{
+      text-shadow: 
+      -1px -1px 0 rgba(0, 176, 245, 0.781),  
+       1px -1px 0 rgba(0, 176, 245, 0.781),
+      -1px 1px 0  rgba(0, 176, 245, 0.781),
+       1px  1px 0 rgba(0, 176, 245, 0.781); 
+    }
+
     /* Estilos para la grilla de opciones */
     .modal_grid {
       display: grid;

@@ -10,7 +10,7 @@
         </div>
         <div class="modal_content">
             <form id="form-obtener-afd">
-                <table>
+                <table class="table_modal_2">
                     <thead>
                         <tr>
                             <th>ID AFN</th>

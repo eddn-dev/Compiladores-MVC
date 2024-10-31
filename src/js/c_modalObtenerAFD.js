@@ -15,6 +15,7 @@ function handleObtenerAFD(modal) {
             const cell = document.createElement('td');
             cell.setAttribute('colspan', '3');
             cell.textContent = 'No hay AFNs disponibles.';
+            cell.classList.add('nohay');
             row.appendChild(cell);
             tablaAFNs.appendChild(row);
             acceptButton.disabled = true;
