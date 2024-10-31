@@ -39,7 +39,7 @@
                             </div>
                             <div>
                             <input type="radio" id="epsilon" name="cerradura" value="epsilon">
-                            <label for="epsilon">Cerradura Épsilon</label>
+                            <label for="epsilon">Cerradura Positiva</label>
                             </div>
                         </div>
                         <div class="modal_buttons">
