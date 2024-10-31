@@ -21,6 +21,9 @@ function handleModal(modal) {
         case 'modal3':
             handleProbarAFD(modal);
             break;
+        case 'modal4':
+            handleCalculadora(modal);    
+            break;
         case 'modal8':
             handleCrearAFNBasico(modal);
             break;
@@ -41,9 +44,6 @@ function handleModal(modal) {
             break;
         case 'modal14':
             handleAplicarERaAFN(modal);
-            break;
-        case 'modal15':
-            handleCalculadora(modal);    
             break;
     }
 }

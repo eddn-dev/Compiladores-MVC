@@ -17,9 +17,10 @@
                         </div>
                     </form>
                 </div>
-                <!-- Contenedor para mostrar el resultado -->
+                <!-- Contenedor para mostrar el resultado y la notación postfija -->
                 <div class="modal_result">
                     <p id="operation-result">Resultado: <span id="result-output"></span></p>
+                    <p id="postfix-expression">Notación Postfija: <span id="postfix-output"></span></p>
                 </div>
             </div>
         </div>
