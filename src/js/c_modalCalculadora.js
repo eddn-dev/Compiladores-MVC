@@ -56,3 +56,40 @@ function handleCalculadora(modal) {
         closeModal(modal);
     });
 }
+
+// Función para validar la operación de entrada
+function validarOperacion(valorOperacion, alertMessage) {
+    if (!valorOperacion.trim()) {
+        alertMessage.textContent = 'La operación es obligatoria.';
+        alertMessage.classList.add('error');
+        return false;
+    }
+    alertMessage.textContent = ''; // Limpia el mensaje de alerta
+    return true;
+}
+
+// Función para realizar el cálculo y mostrar el resultado
+function calcularResultado(operacion, resultOutput, modal) {
+    cargarAutomataDesdeArchivo('build/utils/afdCalculadora.txt')
+        .then(matrizTransicionAFD => {
+            if (!window.expReg) {
+                window.expReg = new ExpresionRegular('', matrizTransicionAFD);
+            } else {
+                window.expReg.AL.matrizTransicionAFD = matrizTransicionAFD;
+            }
+
+            window.expReg.setER(operacion);
+
+            if (window.expReg.parse()) {
+                resultOutput.textContent = window.expReg.getResult();
+                mostrarNotificacion('Operación calculada exitosamente.', 'success');
+            } else {
+                mostrarNotificacion('Error en la operación. Verifique la sintaxis.', 'error');
+                resultOutput.textContent = 'Error en la operación';
+            }
+        })
+        .catch(error => {
+            mostrarNotificacion('Error al calcular la operación: ' + error.message, 'error');
+            resultOutput.textContent = 'Error al cargar el autómata';
+        });
+}

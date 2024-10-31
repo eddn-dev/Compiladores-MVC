@@ -336,6 +336,38 @@ class AFN {
 
         return contenido;
     }
+    //Cytoscape
+    convertirACytoscape() {
+        const elementosCytoscape = [];
+        
+        // Crear nodos para cada estado en el autómata
+        this.Estados.forEach(estado => {
+            elementosCytoscape.push({
+                data: {
+                    id: `estado_${estado.Id_Edo}`,
+                    label: `Estado ${estado.Id_Edo}`,
+                    // Si el estado es de aceptación, se agrega una clase para resaltarlo
+                    clase: this.Edos_Acept.has(estado) ? 'estadoAceptacion' : 'estadoNormal'
+                }
+            });
+        });
+
+        // Crear aristas para cada transición
+        this.Estados.forEach(estado => {
+            estado.Transiciones.forEach(transicion => {
+                elementosCytoscape.push({
+                    data: {
+                        id: `transicion_${estado.Id_Edo}_${transicion.Edo_Destino.Id_Edo}`,
+                        source: `estado_${estado.Id_Edo}`,
+                        target: `estado_${transicion.Edo_Destino.Id_Edo}`,
+                        label: `${transicion.Simbolo_Inferior} - ${transicion.Simbolo_Superior}`
+                    }
+                });
+            });
+        });
+
+        return elementosCytoscape;
+    }
 }
 
 async function iniciarDescarga(contenido, nombreArchivo) {
@@ -375,5 +407,7 @@ async function iniciarDescarga(contenido, nombreArchivo) {
             console.log('Guardado de archivo cancelado por el usuario.');
         }
     }
+
+    
 }
 

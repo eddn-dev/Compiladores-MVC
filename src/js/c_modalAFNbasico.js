@@ -71,6 +71,50 @@ function handleCrearAFNBasico(modal) {
             // Añadir el nuevo AFN al arreglo global
             AFNS.push(nuevoAFN);
 
+            // Convertir el AFN a formato Cytoscape
+            let elementosCytoscape = nuevoAFN.convertirACytoscape();
+
+            // Inicializar Cytoscape en el div con id "1"
+            var cy = cytoscape({
+              container: document.getElementById('1'), 
+              elements: elementosCytoscape,
+              style: [ // Estilos para los nodos y aristas
+                {
+                  selector: 'node',
+                  style: {
+                    'label': 'data(label)',
+                    'background-color': '#666', // Color de fondo del nodo
+                    'color': '#fff', // Color del texto del nodo
+                    'text-valign': 'center', // Alineación vertical del texto
+                    'width': '40px', // Ancho del nodo
+                    'height': '40px' // Alto del nodo
+                  }
+                },
+                {
+                  selector: 'edge',
+                  style: {
+                    'label': 'data(label)',
+                    'curve-style': 'bezier',
+                    'target-arrow-shape': 'triangle',
+                    'width': 2, // Grosor de la arista
+                    'line-color': '#9dbaea', // Color de la arista
+                    'target-arrow-color': '#9dbaea' // Color de la flecha
+                  }
+                },
+                {
+                  selector: '.estadoAceptacion', // Estilo para los estados de aceptación
+                  style: {
+                    'background-color': '#c0392b', // Color de fondo rojo
+                    'shape': 'star' 
+                  }
+                }
+              ],
+              layout: { // Define el diseño del grafo
+                name: 'grid', // Puedes usar otros layouts como 'circle', 'breadthfirst', etc.
+                rows: 2 // Número de filas en la cuadrícula
+              }
+            });
+
             // Actualizar interfaces si es necesario (por ejemplo, listas de selección)
             actualizarSelectsDeAFN();
         },
