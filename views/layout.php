@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-16">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proyecto integral compiladores</title>
     <link rel="icon" href="build/img/icons/favicon.ico" type="image/x-icon"> 
