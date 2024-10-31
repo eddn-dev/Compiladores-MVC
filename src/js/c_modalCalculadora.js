@@ -121,14 +121,6 @@ function gramaticaAutomata()  {
         return { val: false, tree: tree };
     }
 
-    function guardarArbolConResultado(tree, resultado, nombreArchivo) {
-        const nuevoArbol = { tree, resultado };
-        data.push(nuevoArbol);
-
-        const contenido = data.map(d => `Árbol: ${JSON.stringify(d.tree)}\nResultado: ${d.resultado}\n`).join("\n");
-        fs.writeFileSync(nombreArchivo, contenido, 'utf-8');
-    }
-
     function recorrerPostorden(nodo) {
         let resultado = "";
 
@@ -156,7 +148,6 @@ function gramaticaAutomata()  {
 
         if (eResult.val && AL.yylex() === TOKEN.FIN) {
             const postfijo = recorrerPostorden(eResult.tree).trim();
-            guardarArbolConResultado(eResult.tree, resultado.val, '/Compiladores MVC/calculadora.txt');
             return { valid: true, postfijo: postfijo, resultado: resultado.val };
         }
         return { valid: false, postfijo: "", resultado: 0 };
