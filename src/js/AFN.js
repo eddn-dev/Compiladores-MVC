@@ -72,18 +72,53 @@ class AFN {
     }
 
     Concatenar(f2) {
+        // Reasignar IDs de estados de f2 para evitar conflictos
+        const maxId = Math.max(...Array.from(this.Estados).map(e => e.Id_Edo));
+        const idOffset = maxId + 1;
+    
+        const estadoMap = new Map();
+    
+        // Reasignar IDs y actualizar transiciones
+        f2.Estados.forEach(estado => {
+            const nuevoId = estado.Id_Edo + idOffset;
+            const nuevoEstado = new Estado();
+            nuevoEstado.Id_Edo = nuevoId;
+            nuevoEstado.Edo_Acept = estado.Edo_Acept;
+            nuevoEstado.Token = estado.Token;
+            nuevoEstado.Transiciones = new Set();
+            estadoMap.set(estado, nuevoEstado);
+        });
+    
+        f2.Estados.forEach(estado => {
+            const nuevoEstado = estadoMap.get(estado);
+            estado.Transiciones.forEach(transicion => {
+                const nuevoDestino = estadoMap.get(transicion.Edo_Destino);
+                const nuevaTransicion = new Transicion(transicion.Simbolo_Inferior, transicion.Simbolo_Superior, nuevoDestino);
+                nuevoEstado.Transiciones.add(nuevaTransicion);
+            });
+        });
+    
+        // Actualizar el estado inicial de f2
+        f2.Edo_Inicial = estadoMap.get(f2.Edo_Inicial);
+    
+        // Actualizar los estados de aceptación de f2
+        f2.Edos_Acept = new Set([...f2.Edos_Acept].map(estado => estadoMap.get(estado)));
+    
+        // Ahora puedes proceder con la concatenación como antes
         for (let e of this.Edos_Acept) {
-            e.Transiciones = new Set([...e.Transiciones, ...f2.Edo_Inicial.Transiciones]); 
             e.Edo_Acept = false;
+            e.Transiciones.add(new Transicion(Epsilon, Epsilon, f2.Edo_Inicial));
         }
-
-        this.Estados = new Set([...this.Estados, ...f2.Estados]);
-        this.Edos_Acept.clear();
-        this.Edos_Acept = new Set([...f2.Edos_Acept]); 
+    
+        this.Edos_Acept = new Set([...f2.Edos_Acept]);
+    
+        this.Estados = new Set([...this.Estados, ...estadoMap.values()]);
+    
         this.Alfabeto = new Set([...this.Alfabeto, ...f2.Alfabeto]);
-
+    
         return this;
     }
+    
 
     Cerradura_Positiva() {
         let e1 = new Estado();
@@ -304,7 +339,42 @@ class AFN {
         }
     }
     
-    
+    clone() {
+        const newAFN = new AFN();
+        const stateMap = new Map();
+
+        // Clonar estados
+        this.Estados.forEach(estado => {
+            const newState = new Estado();
+            newState.Edo_Acept = estado.Edo_Acept;
+            newState.Token = estado.Token;
+            stateMap.set(estado, newState);
+            newAFN.Estados.add(newState);
+        });
+
+        // Clonar transiciones
+        this.Estados.forEach(estado => {
+            const newState = stateMap.get(estado);
+            estado.Transiciones.forEach(transicion => {
+                const newDestino = stateMap.get(transicion.Edo_Destino);
+                const newTransicion = new Transicion(transicion.Simbolo_Inferior, transicion.Simbolo_Superior, newDestino);
+                newState.Transiciones.add(newTransicion);
+            });
+        });
+
+        // Establecer el estado inicial
+        newAFN.Edo_Inicial = stateMap.get(this.Edo_Inicial);
+
+        // Establecer los estados de aceptación
+        this.Edos_Acept.forEach(estado => {
+            newAFN.Edos_Acept.add(stateMap.get(estado));
+        });
+
+        // Copiar el alfabeto
+        newAFN.Alfabeto = new Set(this.Alfabeto);
+
+        return newAFN;
+    }
 
     imprimirMatrizAFD() {
         console.log('Tabla de Transición del AFD:');

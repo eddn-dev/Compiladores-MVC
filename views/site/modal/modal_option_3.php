@@ -8,20 +8,20 @@
         <div class="modal_content">
             <div class="modal_create_layout">
                 <div class="modal_automaton_previews">
-                    <div class="automaton_preview" id="1"></div>
-                    <div class="automaton_preview" id="2"></div>
+                    <div class="automaton_preview" id="preview-afn"></div>
+                    <div class="automaton_preview" id="preview-result"></div>
                 </div>
                 <div class="modal_automaton_form">
                     <form>
                         <div class="form-group">
-                            <label for="automaton-id-1">ID del AFN 1:</label>
-                            <select id="automaton-id-1" name="automaton-id-1">
+                            <label for="automaton-id">ID del AFN:</label>
+                            <select id="automaton-id" name="automaton-id">
                                 <option value="">Sin selección</option> 
-                                </select>
-                            <small id="automaton-id-1-alert" class="alert-message"></small> 
+                            </select>
+                            <small id="automaton-id-alert" class="alert-message"></small> 
                         </div>
                         <div class="form-group">
-                            <label for="automaton-id-2">ID del AFN 2:</label>
+                            <label for="automaton-id-2">ID del AFN para concatenar:</label>
                             <select id="automaton-id-2" name="automaton-id-2">
                                 <option value="">Sin selección</option> 
                             </select>
@@ -30,16 +30,16 @@
                         <div class="form-group">
                             <label>¿Aplicar cerradura?:</label>
                             <div>
-                            <input type="radio" id="default" name="cerradura" value="default" checked>
-                            <label for="default">Sin cerradura</label>
+                                <input type="radio" id="default" name="cerradura" value="default" checked>
+                                <label for="default">Sin cerradura</label>
                             </div>
                             <div>
-                            <input type="radio" id="kleene" name="cerradura" value="kleene">
-                            <label for="kleene">Cerradura de Kleene</label>
+                                <input type="radio" id="kleene" name="cerradura" value="kleene">
+                                <label for="kleene">Cerradura de Kleene</label>
                             </div>
                             <div>
-                            <input type="radio" id="epsilon" name="cerradura" value="epsilon">
-                            <label for="epsilon">Cerradura Épsilon</label>
+                                <input type="radio" id="epsilon" name="cerradura" value="epsilon">
+                                <label for="epsilon">Cerradura Positiva</label>
                             </div>
                         </div>
                         <div class="modal_buttons">

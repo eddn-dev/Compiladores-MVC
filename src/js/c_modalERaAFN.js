@@ -1,45 +1,3 @@
-async function cargarAutomataDesdeArchivo(rutaArchivo) {
-    try {
-        const response = await fetch(rutaArchivo);
-        if (!response.ok) {
-            throw new Error(`Error al cargar el archivo: ${response.statusText}`);
-        }
-        const contenido = await response.text();
-
-        // Parsear el contenido del archivo para obtener la matriz de transición
-        const matrizTransicionAFD = parseAFDFile(contenido);
-        return matrizTransicionAFD;
-    } catch (error) {
-        console.error('Error al cargar el autómata:', error);
-        throw error;
-    }
-}
-
-// Función para parsear el contenido del archivo y obtener la matriz de transición
-function parseAFDFile(contenido) {
-    const lines = contenido.split('\n').filter(line => line.trim() !== '');
-    const matrizTransicionAFD = [];
-
-    for (let i = 0; i < lines.length; i++) {
-        const valoresFila = lines[i].split(',');
-
-        if (valoresFila.length !== 258) {
-            throw new Error(`La línea ${i + 1} no tiene 258 columnas.`);
-        }
-
-        const fila = valoresFila.map(valor => parseInt(valor.trim()));
-
-        // Verificar que los valores sean enteros válidos
-        if (fila.some(valor => isNaN(valor))) {
-            throw new Error(`Valores inválidos en la línea ${i + 1}.`);
-        }
-
-        matrizTransicionAFD.push(fila);
-    }
-
-    return matrizTransicionAFD;
-}
-
 function handleAplicarERaAFN(modal) {
     const config = {
         fields: [
@@ -65,10 +23,10 @@ function handleAplicarERaAFN(modal) {
                 selector: '#regex-input',
                 alertSelector: '#regex-input-alert',
                 validate: (value) => {
-                    if (value === null || value === undefined) {
+                    if (!value || value.trim() === '') {
                         return 'La expresión regular es obligatoria.';
                     }
-                    // No usar trim(), aceptamos incluso un solo espacio
+                    // Opcional: agregar validaciones adicionales de la expresión regular
                     return null;
                 }
             }
@@ -78,25 +36,16 @@ function handleAplicarERaAFN(modal) {
             const regexInput = fields['regexInput'].value;
 
             try {
-                // Cargar el autómata desde el archivo
-                const matrizTransicionAFD = await cargarAutomataDesdeArchivo('build/utils/ER_AFN.txt');
+                // Asegurarnos de que el autómata esté cargado
+                await cargarAutomataERaAFN();
 
                 // Crear una instancia del analizador sintáctico con la matriz cargada
-                if (!window.expReg) {
-                    // Si no existe, crearla
-                    window.expReg = new ExpresionRegular('', matrizTransicionAFD);
-                } else {
-                    // Si ya existe, solo actualizar la matriz si es necesario
-                    window.expReg.AL.matrizTransicionAFD = matrizTransicionAFD;
-                }
-
-                // Establecer la expresión regular
-                window.expReg.setER(regexInput);
+                const expReg = new ExpresionRegular(regexInput, matrizTransicionAFD_Cache);
 
                 // Realizar el análisis sintáctico
-                if (window.expReg.parse()) {
+                if (expReg.parse()) {
                     // Obtener el AFN resultante
-                    const nuevoAFN = window.expReg.getResult();
+                    const nuevoAFN = expReg.getResult();
                     nuevoAFN.ID_AFN = automatonId; // Asignar el ID personalizado
 
                     // Añadir el nuevo AFN al arreglo global
@@ -119,4 +68,71 @@ function handleAplicarERaAFN(modal) {
     };
 
     handleAFNModal(modal, config);
+
+    // Variables para almacenar la matriz cargada y evitar recargas innecesarias
+    let matrizTransicionAFD_Cache = null;
+
+    // Función para cargar el autómata desde el archivo (solo una vez)
+    async function cargarAutomataERaAFN() {
+        if (!matrizTransicionAFD_Cache) {
+            try {
+                // Cargar el autómata desde el archivo
+                matrizTransicionAFD_Cache = await cargarAutomataDesdeArchivo('build/utils/ER_AFN.txt');
+            } catch (error) {
+                console.error('Error al cargar el autómata:', error);
+                throw error;
+            }
+        }
+    }
+
+    // Cargar el autómata al abrir el modal
+    cargarAutomataERaAFN().catch(error => {
+        mostrarNotificacion('Error al cargar el autómata: ' + error.message, 'error');
+    });
+
+    // Previsualización del resultado
+    const regexInputElement = modal.querySelector('#regex-input');
+    const automatonIdInput = modal.querySelector('#automaton-id');
+
+    async function updateResultPreview() {
+        const regexInput = regexInputElement.value;
+        const automatonId = automatonIdInput.value;
+
+        // Validar que se haya ingresado una expresión regular
+        if (regexInput && regexInput.trim() !== '') {
+            try {
+                // Asegurarnos de que el autómata esté cargado
+                await cargarAutomataERaAFN();
+
+                // Crear una instancia del analizador sintáctico con la matriz cargada
+                const expReg = new ExpresionRegular(regexInput, matrizTransicionAFD_Cache);
+
+                // Realizar el análisis sintáctico
+                if (expReg.parse()) {
+                    // Obtener el AFN resultante
+                    const previewAFN = expReg.getResult();
+                    previewAFN.ID_AFN = automatonId ? automatonId : 'Preview';
+
+                    // Actualizar la previsualización
+                    updateAFNPreview('#preview-afn', previewAFN);
+                } else {
+                    // Limpiar la previsualización en caso de error
+                    updateAFNPreview('#preview-afn', null);
+                }
+            } catch (error) {
+                console.error('Error al generar la previsualización:', error);
+                updateAFNPreview('#preview-afn', null);
+            }
+        } else {
+            // Limpiar la previsualización si no hay expresión regular
+            updateAFNPreview('#preview-afn', null);
+        }
+    }
+
+    // Vincular eventos para actualizar la previsualización
+    regexInputElement.addEventListener('input', updateResultPreview);
+    automatonIdInput.addEventListener('input', updateResultPreview);
+
+    // Actualizar la previsualización inicial
+    updateResultPreview();
 }
