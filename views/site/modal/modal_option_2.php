@@ -21,7 +21,7 @@
                             <small id="automaton-id-alert" class="alert-message"></small> 
                         </div>
                         <div class="form-group">
-                            <label for="afn-id-2">ID del AFN para unir (opcional):</label>
+                            <label for="afn-id-2">ID del AFN para unir:</label>
                             <select id="automaton-id-2" name="automaton-id-2">
                                 <option value="">Sin selección</option> 
                             </select>

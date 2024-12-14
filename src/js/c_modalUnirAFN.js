@@ -35,45 +35,32 @@ function handleUnirAFN(modal) {
             const afnIndex = AFNS.findIndex(afn => afn.ID_AFN === afnId);
             const afn = AFNS[afnIndex];
 
-            let resultAFN;
-
-            if (afnId2) {
+            if (afnId2 && afnId !== afnId2) {
                 // Si se seleccionó un segundo AFN, realizar la unión
                 const afn2Index = AFNS.findIndex(afn => afn.ID_AFN === afnId2);
                 const afn2 = AFNS[afn2Index];
 
-                // Clonar los AFNs para no modificar los originales
-                const cloneAFN1 = afn.clone();
-                const cloneAFN2 = afn2.clone();
+                // Unir los AFNs directamente
+                afn.Unir(afn2);
 
-                // Unir los AFNs
-                cloneAFN1.Unir(cloneAFN2);
-
-                resultAFN = cloneAFN1;
-            } else {
-                // Si no se seleccionó un segundo AFN, trabajar con el primero
-                resultAFN = afn.clone();
+                // Eliminar el AFN 2 de la lista, ya que se ha unido al AFN 1
+                AFNS.splice(afn2Index, 1);
             }
 
             // Aplicar cerradura si es necesario
             const cerradura = form.querySelector('input[name="cerradura"]:checked').value;
             switch (cerradura) {
                 case 'kleene':
-                    resultAFN.Cerradura_Kleene();
+                    afn.Cerradura_Kleene();
                     break;
                 case 'epsilon':
-                    resultAFN.Cerradura_Positiva();
+                    afn.Cerradura_Positiva();
                     break;
                 // 'default' no hace nada
             }
 
-            // Mostrar la previsualización del resultado
-            updateAFNPreview('#preview-result', resultAFN);
-
-            // Si deseas guardar el resultado como un nuevo AFN, puedes hacerlo aquí
-            // resultAFN.ID_AFN = generarNuevoIdAFN();
-            // AFNS.push(resultAFN);
-            // actualizarSelectsDeAFN();
+            // Actualizar los selects en otros modales
+            actualizarSelectsDeAFN();
 
             mostrarNotificacion('Operación realizada exitosamente.', 'success');
             closeModal(modal);
@@ -120,7 +107,6 @@ function handleUnirAFN(modal) {
                 case 'epsilon':
                     previewAFN.Cerradura_Positiva();
                     break;
-                // 'default' no hace nada
             }
 
             // Actualizar la previsualización del resultado
@@ -132,7 +118,10 @@ function handleUnirAFN(modal) {
     }
 
     // Vincular eventos para actualizar la previsualización del resultado
-    select1.addEventListener('change', updateResultPreview);
+    select1.addEventListener('change', () => {
+        updateAFNPreview('#preview-afn', AFNS.find(afn => afn.ID_AFN === select1.value));
+        updateResultPreview();
+    });
     select2.addEventListener('change', updateResultPreview);
     cerraduraRadios.forEach(radio => {
         radio.addEventListener('change', updateResultPreview);
